@@ -7,16 +7,108 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @OA\Info(
+ *     title="API Documentation",
+ *     version="1.0"
+ * )
+ */
+
 class MovementController extends Controller
 {
+
+
+    /**
+     * @OA\Get(
+     *    path="/movement/getAll",
+     *    summary="Get all movements",
+     *    tags={"Movements"},
+     *    @OA\Response(
+     *       response=200,
+     *       description="Success",
+     *       @OA\JsonContent(
+     *           type="array",
+     *           @OA\Items(
+     *               @OA\Property(property="rowid", type="integer"),
+     *               @OA\Property(property="dia", type="integer"),
+     *               @OA\Property(property="mes", type="integer"),
+     *               @OA\Property(property="ano", type="integer"),
+     *               @OA\Property(property="tipo", type="string"),
+     *               @OA\Property(property="categoria", type="integer"),
+     *               @OA\Property(property="descricao", type="string"),
+     *               @OA\Property(property="valor", type="number"),
+     *           )
+     *       )
+     *   )
+     * )
+     */
+
     public function getAllMovements()
     {
         $movement = MovementModel::select('lc_movimento.*', 'rowid')->get();
         return response()->json($movement);
     }
 
-    public function getByMonthAndYearAndCategory(Request $request)
-    {
+
+    /**
+     * @OA\Get(
+     *     path="/movement/filter",
+     *     summary="Retrieve movements by month, year, and category",
+     *     tags={"Movements"},
+     *     @OA\Parameter(
+     *         name="year",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=2024
+     *         ),
+     *         description="Year to filter by"
+     *     ),
+     *     @OA\Parameter(
+     *         name="month",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         ),
+     *         description="Month to filter by"
+     *     ),
+     *     @OA\Parameter(
+     *         name="category",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="Food"
+     *         ),
+     *         description="Category to filter by"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful retrieval of movements",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="rowid", type="integer", example=1),
+     *                 @OA\Property(property="lc_movimento", type="string", example="Movement details"),
+     *                 @OA\Property(property="ano", type="integer", example=2024),
+     *                 @OA\Property(property="mes", type="integer", example=1),
+     *                 @OA\Property(property="categoria", type="string", example="Food")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input"
+     *     )
+     * )
+     */
+
+     public function getByMonthAndYearAndCategory(Request $request)
+     {
         $category = $request->input('category');
         $month = $request->input('month');
         $year = $request->input('year');
@@ -33,7 +125,59 @@ class MovementController extends Controller
 
         $movements = $query->get();
         return response()->json($movements);
-    }
+     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/movements",
+     *     tags={"Movements"},
+     *     summary="Create a new movement",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="dia", type="integer", example=15, description="Day of the movement"),
+     *             @OA\Property(property="mes", type="integer", example=8, description="Month of the movement"),
+     *             @OA\Property(property="ano", type="integer", example=2024, description="Year of the movement"),
+     *             @OA\Property(property="tipo", type="string", example="Expense", description="Type of the movement"),
+     *             @OA\Property(property="categoria", type="integer", example=1, description="Category ID of the movement"),
+     *             @OA\Property(property="descricao", type="string", example="Grocery shopping", description="Description of the movement"),
+     *             @OA\Property(property="valor", type="number", format="float", example=150.75, description="Value of the movement")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Movement created successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="dia", type="integer", example=15),
+     *             @OA\Property(property="mes", type="integer", example=8),
+     *             @OA\Property(property="ano", type="integer", example=2024),
+     *             @OA\Property(property="tipo", type="string", example="Expense"),
+     *             @OA\Property(property="categoria", type="integer", example=1),
+     *             @OA\Property(property="descricao", type="string", example="Grocery shopping"),
+     *             @OA\Property(property="valor", type="number", format="float", example=150.75)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid input data",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string", example="Validation error")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string", example="Could not create movement")
+     *         )
+     *     )
+     * )
+     */
 
     public function createMovement(Request $request)
     {
@@ -57,6 +201,36 @@ class MovementController extends Controller
         }
     }
 
+     /**
+     * @OA\Delete(
+     *     path="/api/movements/{rowid}",
+     *     tags={"Movements"},
+     *     summary="Delete a movement by ID",
+     *     @OA\Parameter(
+     *         name="rowid",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         ),
+     *         description="ID of the movement to be deleted"
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Movement deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string", example="Could not delete movement")
+     *         )
+     *     )
+     * )
+     */
+
     public function deleteById($rowid)
     {
         try {
@@ -67,6 +241,68 @@ class MovementController extends Controller
             return response()->json(['error' => 'Could not delete movement'], 500);
         }
     }
+
+    /**
+     * @OA\Put(
+     *     path="/api/movements/{rowid}",
+     *     tags={"Movements"},
+     *     summary="Update a movement by ID",
+     *     @OA\Parameter(
+     *         name="rowid",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         ),
+     *         description="ID of the movement to be updated"
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="dia", type="integer", example=15, description="Day of the movement"),
+     *             @OA\Property(property="mes", type="integer", example=8, description="Month of the movement"),
+     *             @OA\Property(property="ano", type="integer", example=2024, description="Year of the movement"),
+     *             @OA\Property(property="tipo", type="string", example="Expense", description="Type of the movement"),
+     *             @OA\Property(property="categoria", type="integer", example=1, description="Category ID of the movement"),
+     *             @OA\Property(property="descricao", type="string", example="Grocery shopping", description="Description of the movement"),
+     *             @OA\Property(property="valor", type="number", format="float", example=150.75, description="Value of the movement")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Movement updated successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="rowid", type="integer", example=1),
+     *             @OA\Property(property="dia", type="integer", example=15),
+     *             @OA\Property(property="mes", type="integer", example=8),
+     *             @OA\Property(property="ano", type="integer", example=2024),
+     *             @OA\Property(property="tipo", type="string", example="Expense"),
+     *             @OA\Property(property="categoria", type="integer", example=1),
+     *             @OA\Property(property="descricao", type="string", example="Grocery shopping"),
+     *             @OA\Property(property="valor", type="number", format="float", example=150.75)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Movement not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Movement not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string", example="Could not update movement")
+     *         )
+     *     )
+     * )
+     */
 
     public function updateFullMovementById(Request $request, $rowid)
     {
@@ -105,6 +341,76 @@ class MovementController extends Controller
             return response()->json(['error' => 'Could not update movement'], 500);
         }
     }
+
+    /**
+     * @OA\Patch(
+     *     path="/api/movements/{rowid}",
+     *     summary="Partially update a movement by ID",
+     *     tags={"Movements"},
+     *     @OA\Parameter(
+     *         name="rowid",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             example=1
+     *         ),
+     *         description="ID of the movement to be updated"
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="dia", type="integer", example=15, description="Day of the movement"),
+     *             @OA\Property(property="mes", type="integer", example=8, description="Month of the movement"),
+     *             @OA\Property(property="ano", type="integer", example=2024, description="Year of the movement"),
+     *             @OA\Property(property="tipo", type="string", example="Expense", description="Type of the movement"),
+     *             @OA\Property(property="categoria", type="integer", example=1, description="Category ID of the movement"),
+     *             @OA\Property(property="descricao", type="string", example="Grocery shopping", description="Description of the movement"),
+     *             @OA\Property(property="valor", type="number", format="float", example=150.75, description="Value of the movement")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Movement updated successfully",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="rowid", type="integer", example=1),
+     *             @OA\Property(property="dia", type="integer", example=15),
+     *             @OA\Property(property="mes", type="integer", example=8),
+     *             @OA\Property(property="ano", type="integer", example=2024),
+     *             @OA\Property(property="tipo", type="string", example="Expense"),
+     *             @OA\Property(property="categoria", type="integer", example=1),
+     *             @OA\Property(property="descricao", type="string", example="Grocery shopping"),
+     *             @OA\Property(property="valor", type="number", format="float", example=150.75)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="No fields to update",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="No fields to update")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Movement not found",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="message", type="string", example="Movement not found")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="error", type="string", example="Could not update movement")
+     *         )
+     *     )
+     * )
+     */
 
     public function updatePartialMovementById(Request $request, $rowid)
     {

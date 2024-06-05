@@ -1,0 +1,726 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ],
+    "paths": {
+        "/category/getAll": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Retorna todas as categorias",
+                "operationId": "f0aef3ae892b79d11eee4cb437a5cc0e",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "idCategory": {
+                                                "type": "integer"
+                                            },
+                                            "descricao": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/category/create": {
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create a new category",
+                "operationId": "bc44d2485b935628c50139b08f1761a0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "descricao": {
+                                        "description": "Description of the category",
+                                        "type": "string",
+                                        "example": "Food"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created successfully"
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Could not create category"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/movement/getAll": {
+            "get": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Get all movements",
+                "operationId": "1ab14c72999de07bce65d28fac2d2a7f",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "rowid": {
+                                                "type": "integer"
+                                            },
+                                            "dia": {
+                                                "type": "integer"
+                                            },
+                                            "mes": {
+                                                "type": "integer"
+                                            },
+                                            "ano": {
+                                                "type": "integer"
+                                            },
+                                            "tipo": {
+                                                "type": "string"
+                                            },
+                                            "categoria": {
+                                                "type": "integer"
+                                            },
+                                            "descricao": {
+                                                "type": "string"
+                                            },
+                                            "valor": {
+                                                "type": "number"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/movement/filter": {
+            "get": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Retrieve movements by month, year, and category",
+                "operationId": "06ef4a959256d8142c985631856b672e",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Year to filter by",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2024
+                        }
+                    },
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "description": "Month to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Category to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Food"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful retrieval of movements",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "rowid": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "lc_movimento": {
+                                                "type": "string",
+                                                "example": "Movement details"
+                                            },
+                                            "ano": {
+                                                "type": "integer",
+                                                "example": 2024
+                                            },
+                                            "mes": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "categoria": {
+                                                "type": "string",
+                                                "example": "Food"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/movements": {
+            "post": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Create a new movement",
+                "operationId": "25d4346c8b64e3a8877d74c3d349134e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "dia": {
+                                        "description": "Day of the movement",
+                                        "type": "integer",
+                                        "example": 15
+                                    },
+                                    "mes": {
+                                        "description": "Month of the movement",
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "ano": {
+                                        "description": "Year of the movement",
+                                        "type": "integer",
+                                        "example": 2024
+                                    },
+                                    "tipo": {
+                                        "description": "Type of the movement",
+                                        "type": "string",
+                                        "example": "Expense"
+                                    },
+                                    "categoria": {
+                                        "description": "Category ID of the movement",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "descricao": {
+                                        "description": "Description of the movement",
+                                        "type": "string",
+                                        "example": "Grocery shopping"
+                                    },
+                                    "valor": {
+                                        "description": "Value of the movement",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150.75
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Movement created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "dia": {
+                                            "type": "integer",
+                                            "example": 15
+                                        },
+                                        "mes": {
+                                            "type": "integer",
+                                            "example": 8
+                                        },
+                                        "ano": {
+                                            "type": "integer",
+                                            "example": 2024
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "Expense"
+                                        },
+                                        "categoria": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "descricao": {
+                                            "type": "string",
+                                            "example": "Grocery shopping"
+                                        },
+                                        "valor": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 150.75
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Could not create movement"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movements/{rowid}": {
+            "put": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Update a movement by ID",
+                "operationId": "1b3bee355b0e70d80cbb51e12e200a83",
+                "parameters": [
+                    {
+                        "name": "rowid",
+                        "in": "path",
+                        "description": "ID of the movement to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "dia": {
+                                        "description": "Day of the movement",
+                                        "type": "integer",
+                                        "example": 15
+                                    },
+                                    "mes": {
+                                        "description": "Month of the movement",
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "ano": {
+                                        "description": "Year of the movement",
+                                        "type": "integer",
+                                        "example": 2024
+                                    },
+                                    "tipo": {
+                                        "description": "Type of the movement",
+                                        "type": "string",
+                                        "example": "Expense"
+                                    },
+                                    "categoria": {
+                                        "description": "Category ID of the movement",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "descricao": {
+                                        "description": "Description of the movement",
+                                        "type": "string",
+                                        "example": "Grocery shopping"
+                                    },
+                                    "valor": {
+                                        "description": "Value of the movement",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150.75
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Movement updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rowid": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "dia": {
+                                            "type": "integer",
+                                            "example": 15
+                                        },
+                                        "mes": {
+                                            "type": "integer",
+                                            "example": 8
+                                        },
+                                        "ano": {
+                                            "type": "integer",
+                                            "example": 2024
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "Expense"
+                                        },
+                                        "categoria": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "descricao": {
+                                            "type": "string",
+                                            "example": "Grocery shopping"
+                                        },
+                                        "valor": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 150.75
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movement not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Movement not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Could not update movement"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Delete a movement by ID",
+                "operationId": "5bf7ef886fc8391c08bf3ff185ee4ae4",
+                "parameters": [
+                    {
+                        "name": "rowid",
+                        "in": "path",
+                        "description": "ID of the movement to be deleted",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Movement deleted successfully"
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Could not delete movement"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Partially update a movement by ID",
+                "operationId": "45fefd82e7dd06d8e282891a0490957a",
+                "parameters": [
+                    {
+                        "name": "rowid",
+                        "in": "path",
+                        "description": "ID of the movement to be updated",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "dia": {
+                                        "description": "Day of the movement",
+                                        "type": "integer",
+                                        "example": 15
+                                    },
+                                    "mes": {
+                                        "description": "Month of the movement",
+                                        "type": "integer",
+                                        "example": 8
+                                    },
+                                    "ano": {
+                                        "description": "Year of the movement",
+                                        "type": "integer",
+                                        "example": 2024
+                                    },
+                                    "tipo": {
+                                        "description": "Type of the movement",
+                                        "type": "string",
+                                        "example": "Expense"
+                                    },
+                                    "categoria": {
+                                        "description": "Category ID of the movement",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "descricao": {
+                                        "description": "Description of the movement",
+                                        "type": "string",
+                                        "example": "Grocery shopping"
+                                    },
+                                    "valor": {
+                                        "description": "Value of the movement",
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150.75
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Movement updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rowid": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "dia": {
+                                            "type": "integer",
+                                            "example": 15
+                                        },
+                                        "mes": {
+                                            "type": "integer",
+                                            "example": 8
+                                        },
+                                        "ano": {
+                                            "type": "integer",
+                                            "example": 2024
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "Expense"
+                                        },
+                                        "categoria": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "descricao": {
+                                            "type": "string",
+                                            "example": "Grocery shopping"
+                                        },
+                                        "valor": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 150.75
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "No fields to update",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No fields to update"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movement not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Movement not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Could not update movement"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
