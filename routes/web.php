@@ -7,8 +7,18 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::post('/doc', [UserController::class, 'doc']);
-Route::get('/movement/getAll', [MovementController::class, 'getAllMovements']);
+
+Route::get('/painel', function () {
+    return view('painel.index');
+});
+
+Route::get('/movimentations', function () {
+    return view('movimentations.index');
+});
+
+Route::post('/doc', [movementController::class, 'doc']);
+
+Route::get('/movement/getAll', [MovementController::class, 'getAllMovements'])->name('movements.getAll');
 Route::get('/movement/filter', [MovementController::class, 'getByMonthAndYearAndCategory']);
 Route::post('/movement/create', [MovementController::class, 'createMovement']);
 Route::delete('/movement/{rowid}', [MovementController::class, 'deleteById']);

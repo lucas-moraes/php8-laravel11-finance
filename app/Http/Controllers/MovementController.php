@@ -124,6 +124,11 @@ class MovementController extends Controller
         }
 
         $movements = $query->get();
+
+        $totalValue = $movements->sum('valor');
+
+        $movements->push(['total' => $totalValue]);
+
         return response()->json($movements);
      }
 
