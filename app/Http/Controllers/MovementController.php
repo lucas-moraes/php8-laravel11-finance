@@ -134,7 +134,7 @@ class MovementController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/movements",
+     *     path="/movement",
      *     tags={"Movements"},
      *     summary="Create a new movement",
      *     @OA\RequestBody(
@@ -208,7 +208,7 @@ class MovementController extends Controller
 
      /**
      * @OA\Delete(
-     *     path="/api/movements/{rowid}",
+     *     path="/movement/{rowid}",
      *     tags={"Movements"},
      *     summary="Delete a movement by ID",
      *     @OA\Parameter(
@@ -249,7 +249,7 @@ class MovementController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/api/movements/{rowid}",
+     *     path="/movement/{rowid}",
      *     tags={"Movements"},
      *     summary="Update a movement by ID",
      *     @OA\Parameter(
@@ -349,7 +349,7 @@ class MovementController extends Controller
 
     /**
      * @OA\Patch(
-     *     path="/api/movements/{rowid}",
+     *     path="/movement/{rowid}",
      *     summary="Partially update a movement by ID",
      *     tags={"Movements"},
      *     @OA\Parameter(
@@ -466,5 +466,62 @@ class MovementController extends Controller
             Log::error('Error updating movement with rowid: ' . $rowid . ' - ' . $e->getMessage());
             return response()->json(['error' => 'Could not update movement'], 500);
         }
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/movement/filterYearGroupByMonth",
+     *     summary="Get movements grouped by month for a given year",
+     *     tags={"Movements"},
+     *     @OA\Parameter(
+     *         name="year",
+     *         in="query",
+     *         description="Year to filter movements",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful response",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="mes",
+     *                     type="integer",
+     *                     description="Month"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="total",
+     *                     type="number",
+     *                     description="Total value for the month"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad request"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal server error"
+     *     )
+     * )
+     */
+
+    public function getMovementsByYearGroupByMonth(Request $request)
+    {
+        $year = $request->input('year');
+
+        $movements = MovementModel::select('mes', DB::raw('SUM(valor) as total'))
+            ->where('ano', $year)
+            ->groupBy('mes')
+            ->get();
+
+        return response()->json($movements);
     }
 }

@@ -236,13 +236,13 @@
                 }
             }
         },
-        "/api/movements": {
+        "/movement": {
             "post": {
                 "tags": [
                     "Movements"
                 ],
                 "summary": "Create a new movement",
-                "operationId": "25d4346c8b64e3a8877d74c3d349134e",
+                "operationId": "f898c67d6f1644a2370b2dd345e6d021",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -372,13 +372,13 @@
                 }
             }
         },
-        "/api/movements/{rowid}": {
+        "/movement/{rowid}": {
             "put": {
                 "tags": [
                     "Movements"
                 ],
                 "summary": "Update a movement by ID",
-                "operationId": "1b3bee355b0e70d80cbb51e12e200a83",
+                "operationId": "8c9348d269e721e9e8d7ddd07e85c013",
                 "parameters": [
                     {
                         "name": "rowid",
@@ -524,7 +524,7 @@
                     "Movements"
                 ],
                 "summary": "Delete a movement by ID",
-                "operationId": "5bf7ef886fc8391c08bf3ff185ee4ae4",
+                "operationId": "04945a0c2145eac89244333507e22c68",
                 "parameters": [
                     {
                         "name": "rowid",
@@ -564,7 +564,7 @@
                     "Movements"
                 ],
                 "summary": "Partially update a movement by ID",
-                "operationId": "45fefd82e7dd06d8e282891a0490957a",
+                "operationId": "b453a7d38b885f762d57504c0fa144a9",
                 "parameters": [
                     {
                         "name": "rowid",
@@ -718,6 +718,57 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/movement/filterYearGroupByMonth": {
+            "get": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Get movements grouped by month for a given year",
+                "operationId": "ce157daecac6df9c4fe95633828a8b4f",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Year to filter movements",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "mes": {
+                                                "description": "Month",
+                                                "type": "integer"
+                                            },
+                                            "total": {
+                                                "description": "Total value for the month",
+                                                "type": "number"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 }
             }

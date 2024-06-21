@@ -12,13 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/doc',
-        '/movement/getAll',
-        '/movement/filter',
-        '/movement/create',
-        '/movement/*',
-        '/category/getAll',
-        '/category/create',
+        '/*',
     ];
 }
 
