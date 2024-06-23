@@ -18,11 +18,13 @@ Route::get('/movimentations', function () {
 
 Route::post('/doc', [movementController::class, 'doc']);
 
-Route::get('/movement/getAll', [MovementController::class, 'getAllMovements'])->name('movements.getAll');
+Route::get('/movement/get-all', [MovementController::class, 'getAllMovements'])
 Route::get('/movement/filter', [MovementController::class, 'getByMonthAndYearAndCategory']);
 Route::post('/movement/create', [MovementController::class, 'createMovement']);
 Route::delete('/movement/{rowid}', [MovementController::class, 'deleteById']);
 Route::put('/movement/{rowid}', [MovementController::class, 'updateFullMovementById']);
 Route::patch('/movement/{rowid}', [MovementController::class, 'updatePartialMovementById']);
-Route::get('/category/getAll', [CategoryController::class, 'getAllCategories']);
+Route::get('/movement/filter-year-group-by-month', [MovementController::class, 'getMovementsByYearGroupByMonth']);
+Route::get('/movement/filter-year-group-by-category', [MovementController::class, 'getMovementsByYearGroupByCategory']);
+Route::get('/category/get-all', [CategoryController::class, 'getAllCategories']);
 Route::get('/category/create', [CategoryController::class, 'createCategory']);

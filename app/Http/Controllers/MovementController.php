@@ -20,7 +20,7 @@ class MovementController extends Controller
 
     /**
      * @OA\Get(
-     *    path="/movement/getAll",
+     *    path="/movement/get-all",
      *    summary="Get all movements",
      *    tags={"Movements"},
      *    @OA\Response(
@@ -419,7 +419,6 @@ class MovementController extends Controller
 
     public function updatePartialMovementById(Request $request, $rowid)
     {
-        // Validação dos dados
         $validatedData = $request->validate([
             'dia' => 'sometimes|integer|between:1,31',
             'mes' => 'sometimes|integer|between:1,12',
@@ -430,7 +429,6 @@ class MovementController extends Controller
             'valor' => 'sometimes|numeric',
         ]);
 
-        // Construir a query de atualização dinamicamente
         $fields = [];
         $values = [];
 
@@ -443,26 +441,20 @@ class MovementController extends Controller
             return response()->json(['message' => 'No fields to update'], 400);
         }
 
-        // Adicionar o rowid ao final dos valores
         $values[] = $rowid;
 
-        // Construir a instrução SQL
         $updateQuery = 'UPDATE lc_movimento SET ' . implode(', ', $fields) . ' WHERE rowid = ?';
 
         try {
-            // Executar a instrução UPDATE diretamente
             $updated = DB::update($updateQuery, $values);
 
             if ($updated) {
-                // Se a atualização foi bem-sucedida, retornar os dados atualizados
                 $updatedMovement = DB::select('SELECT * FROM lc_movimento WHERE rowid = ?', [$rowid]);
                 return response()->json($updatedMovement[0], 200);
             } else {
-                // Se nenhum registro foi atualizado, retornar 404 Not Found
                 return response()->json(['message' => 'Movement not found'], 404);
             }
         } catch (\Exception $e) {
-            // Em caso de erro, registrar a mensagem e retornar 500 Internal Server Error
             Log::error('Error updating movement with rowid: ' . $rowid . ' - ' . $e->getMessage());
             return response()->json(['error' => 'Could not update movement'], 500);
         }
@@ -470,7 +462,7 @@ class MovementController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/movement/filterYearGroupByMonth",
+     *     path="/movement/filter-year-group-by-month",
      *     summary="Get movements grouped by month for a given year",
      *     tags={"Movements"},
      *     @OA\Parameter(
@@ -520,6 +512,59 @@ class MovementController extends Controller
         $movements = MovementModel::select('mes', DB::raw('SUM(valor) as total'))
             ->where('ano', $year)
             ->groupBy('mes')
+            ->get();
+
+        return response()->json($movements);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/movement/filter-year-group-by-category",
+     *     summary="Obter movimentos por categoria em um ano específico",
+     *     tags={"Movements"},
+     *     @OA\Parameter(
+     *         name="year",
+     *         in="query",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *         description="Ano para filtrar os movimentos"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de movimentos agrupados por categoria",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(
+     *                     property="categoria",
+     *                     type="string",
+     *                     description="Categoria do movimento"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="total",
+     *                     type="number",
+     *                     format="float",
+     *                     description="Valor total dos movimentos na categoria"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Parâmetro 'year' ausente ou inválido"
+     *     )
+     * )
+     */
+
+    public function getMovementsByYearGroupByCategory(Request $request)
+    {
+        $year = $request->input('year');
+
+        $movements = MovementModel::select('categoria', DB::raw('SUM(valor) as total'))
+            ->where('ano', $year)
+            ->groupBy('categoria')
             ->get();
 
         return response()->json($movements);
