@@ -18,7 +18,7 @@ Route::get('/movimentations', function () {
 
 Route::post('/doc', [movementController::class, 'doc']);
 
-Route::get('/movement/get-all', [MovementController::class, 'getAllMovements'])
+Route::get('/movement/get-all', [MovementController::class, 'getAllMovements']);
 Route::get('/movement/filter', [MovementController::class, 'getByMonthAndYearAndCategory']);
 Route::post('/movement/create', [MovementController::class, 'createMovement']);
 Route::delete('/movement/{rowid}', [MovementController::class, 'deleteById']);

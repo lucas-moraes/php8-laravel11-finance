@@ -10,13 +10,13 @@
         }
     ],
     "paths": {
-        "/category/getAll": {
+        "/category/get-all": {
             "get": {
                 "tags": [
                     "Categories"
                 ],
                 "summary": "Retorna todas as categorias",
-                "operationId": "f0aef3ae892b79d11eee4cb437a5cc0e",
+                "operationId": "aada70b32096600dce15872974056c97",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -105,13 +105,13 @@
                 }
             }
         },
-        "/movement/getAll": {
+        "/movement/get-all": {
             "get": {
                 "tags": [
                     "Movements"
                 ],
                 "summary": "Get all movements",
-                "operationId": "1ab14c72999de07bce65d28fac2d2a7f",
+                "operationId": "665624b2d156e2c30b4e2e69048bb6c7",
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -722,13 +722,13 @@
                 }
             }
         },
-        "/movement/filterYearGroupByMonth": {
+        "/movement/filter-year-group-by-month": {
             "get": {
                 "tags": [
                     "Movements"
                 ],
                 "summary": "Get movements grouped by month for a given year",
-                "operationId": "ce157daecac6df9c4fe95633828a8b4f",
+                "operationId": "b48f307f6e48ff43b882a705b4cfaf06",
                 "parameters": [
                     {
                         "name": "year",
@@ -769,6 +769,55 @@
                     },
                     "500": {
                         "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/movement/filter-year-group-by-category": {
+            "get": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Obter movimentos por categoria em um ano específico",
+                "operationId": "70aec9ece162ff933e9475b8d3c229e8",
+                "parameters": [
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "Ano para filtrar os movimentos",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de movimentos agrupados por categoria",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "categoria": {
+                                                "description": "Categoria do movimento",
+                                                "type": "string"
+                                            },
+                                            "total": {
+                                                "description": "Valor total dos movimentos na categoria",
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Parâmetro 'year' ausente ou inválido"
                     }
                 }
             }

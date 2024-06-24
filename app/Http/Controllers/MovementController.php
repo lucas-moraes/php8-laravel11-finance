@@ -74,6 +74,10 @@ class MovementController extends Controller
      *             example=1
      *         ),
      *         description="Month to filter by"
+     *         description="Month to filter by"
+     *         description="Month to filter by"
+     *         description="Month to filter by"
+     *         description="Month to filter by"
      *     ),
      *     @OA\Parameter(
      *         name="category",
@@ -107,8 +111,8 @@ class MovementController extends Controller
      * )
      */
 
-     public function getByMonthAndYearAndCategory(Request $request)
-     {
+    public function getByMonthAndYearAndCategory(Request $request)
+    {
         $category = $request->input('category');
         $month = $request->input('month');
         $year = $request->input('year');
@@ -123,14 +127,14 @@ class MovementController extends Controller
             $query = $query->where('categoria', $category);
         }
 
-        $movements = $query->get();
+        $movements = $query->orderBy('valor', 'desc')->get();
 
         $totalValue = $movements->sum('valor');
 
         $movements->push(['total' => $totalValue]);
 
         return response()->json($movements);
-     }
+    }
 
     /**
      * @OA\Post(
@@ -199,14 +203,13 @@ class MovementController extends Controller
 
             $movement = MovementModel::create($validatedData);
             return response()->json($movement, 201);
-
         } catch (\Exception $e) {
             Log::error('Error creating movement - ' . $e->getMessage());
             return response()->json(['error' => 'Could not create movement'], 500);
         }
     }
 
-     /**
+    /**
      * @OA\Delete(
      *     path="/movement/{rowid}",
      *     tags={"Movements"},
@@ -565,7 +568,12 @@ class MovementController extends Controller
         $movements = MovementModel::select('categoria', DB::raw('SUM(valor) as total'))
             ->where('ano', $year)
             ->groupBy('categoria')
+            ->orderBy('total', 'desc')
             ->get();
+
+        $totalValue = $movements->sum('total');
+
+        $movements->push(['totalYear' => $totalValue]);
 
         return response()->json($movements);
     }

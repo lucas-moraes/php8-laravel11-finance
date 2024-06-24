@@ -10,7 +10,7 @@ class CategoryController extends Controller
 
     /**
     * @OA\Get(
-    *    path="/category/getAll",
+    *    path="/category/get-all",
     *    summary="Retorna todas as categorias",
     *    tags={"Categories"},
     *    @OA\Response(
