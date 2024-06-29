@@ -16,10 +16,10 @@
 
     <div class="navbar-end" id="navMenu">
         <div class="navbar-menu">
-            <a class="navbar-item" ui-sref="painel">
+            <a href="/painel" class="navbar-item" ui-sref="painel">
                 Painel
             </a>
-            <a class="navbar-item" ui-sref="resumes">
+            <a href="/movimentations" class="navbar-item" ui-sref="resumes">
                 Resumos
             </a>
         </div>

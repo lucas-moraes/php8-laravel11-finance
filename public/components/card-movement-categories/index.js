@@ -10,17 +10,11 @@ document.addEventListener('DOMContentLoaded', async function () {
   const year = date.getFullYear();
   document.getElementById('year').textContent = year;
 
-  const categories = await fetch('/category/get-all')
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
-
   await fetch(`/movement/filter-year-group-by-category?year=${year}`)
     .then((response) => response.json())
     .then((data) => {
       const newList = data.map((movement) => {
-        categories.forEach((category) => {
+        window.categories.forEach((category) => {
           if (movement.categoria === category.idCategory) {
             movement.categoria = category.descricao;
           }

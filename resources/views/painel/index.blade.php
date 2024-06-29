@@ -35,47 +35,7 @@
             <button class="button is-info"><i class="fas fa-plus mr-2"></i>Movimento</button>
         </div>
     </div>
-    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-        <thread>
-            <tr>
-                <th>Data</th>
-                <th>Categoria</th>
-                <th>Tipo</th>
-                <th>Descrição</th>
-                <th class="has-text-centered">Opções</th>
-                <th class="has-text-right">Valor</th>
-            </tr>
-        </thread>
-        <tbody>
-            <tr>
-                <td><span class="is-size-6"></span></td>
-                <td><span class="is-size-6"></span></td>
-                <td><span class="is-size-6"></span></td>
-                <td><span class="is-size-6"></span></td>
-                <td class="has-text-centered has-text-dark">
-                    <span class="button icon ml-2 mr-2">
-                        <i class="fas fa-cog"></i>
-                    </span>
-                    <span class="icon ml-2 mr-2 button">
-                        <i class="fas fa-times"></i>
-                    </span>
-                </td>
-                <td class="has-text-right"><span class="is-size-6"></span></td>
-            </tr>
-            <modal-movimento></modal-movimento>
-            <modal-categorias></modal-categorias>
-            <modal-conjunto></modal-conjunto>
-        </tbody>
-    </table>
-    <table style="display: flex;justify-content: flex-end;">
-        <tfoot class="table is-hoverable is-narrow is-bordered">
-            <tr align="right">
-                <td class='has-text-right'>Resultado</td>
-                <td class='has-text-right'></td>
-            </tr>
-        </tfoot>
-    </table>
+   <x-table-movements></x-table-movements>
 </div>
 
 @endsection
-

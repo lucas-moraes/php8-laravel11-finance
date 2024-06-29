@@ -18,7 +18,9 @@
         @yield('content')
     </div>
     @yield('scripts')
-     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+    <script src="/js/autoexecs.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
+
 </body>
 </html>
 

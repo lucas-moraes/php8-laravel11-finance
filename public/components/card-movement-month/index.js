@@ -6,22 +6,18 @@
 import { FormatNumberToCurrency } from '../../js/tools.js';
 
 document.addEventListener('DOMContentLoaded', async function () {
-  const date = new Date();
-  const month = date.toLocaleString('default', { month: 'long' });
-  const year = date.getFullYear();
-  document.getElementById('month').textContent = month;
+  const s = window.GlobalStore;
+  const monthNumber = s.getData('month');
+  const monthLong = monthNumber.toLocaleString('pt-BR', { month: 'long' });
+  const year = s.getData('year');
 
-  const categories = await fetch('/category/get-all')
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
+  document.getElementById('month').textContent = monthLong;
 
-  await fetch(`/movement/filter?year=${year}&month=6`)
+  await fetch(`/movement/filter?year=${year}&month=${monthNumber}`)
     .then((response) => response.json())
     .then((data) => {
       const newList = data.map((movement) => {
-        categories.forEach((category) => {
+        window.categories.forEach((category) => {
           if (movement.categoria === category.idCategory) {
             movement.categoria = category.descricao;
           }
