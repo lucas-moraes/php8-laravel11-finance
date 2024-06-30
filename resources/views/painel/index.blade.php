@@ -10,22 +10,13 @@
     <div class="pt-4 pb-4 is-justify-content-space-between is-flex">
         <div>
             <div class="select">
-                <select id="select_category">
-                    <option value='0' selected>Categoria</option>
-                    <option value="categoria">categoria1</option>
-                </select>
+                <select id="categoryOptionList"></select>
             </div>
             <div class="select">
-                <select id="select_month">
-                    <option value='0' selected>Mês</option>
-                    <option  value="mes">mes</option>
-                </select>
+                <select id="monthOptionList"></select>
             </div>
             <div class="select">
-                <select id="select_year">
-                    <option value='0' selected>Ano</option>
-                    <option value="ano">ano</option>
-                </select>
+                <select id="yearOptionList"></select>
             </div>
             <button class="button is-primary"><i class="fas fa-filter mr-2"></i>Filtrar</button>
         </div>

@@ -43,9 +43,9 @@ document.addEventListener('DOMContentLoaded', async function () {
           sumary:
             (Object.keys(movement).includes('total') &&
               `
-                <tr class=${movement.total > 0 ? 'positive' : 'negative'} align="right">
+                <tr align="right">
                     <td class='has-text-right'>Resultado</td>
-                    <td class='has-text-right'>${FormatNumberToCurrency(movement.total)}</td>
+                    <td class='has-text-right ${movement.total > 0 ? 'positive' : 'negative'}'>${FormatNumberToCurrency(movement.total)}</td>
                 </tr>
             `) ||
             '',

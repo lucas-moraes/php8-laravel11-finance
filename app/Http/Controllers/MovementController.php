@@ -43,9 +43,34 @@ class MovementController extends Controller
      * )
      */
 
-    public function getAllMovements()
+    public function getAllMovements(Request $request)
     {
-        $movement = MovementModel::select('lc_movimento.*', 'rowid')->get();
+        $groupByCategory = $request->input('group-by-category');
+        $groupByMonth = $request->input('group-by-month');
+        $groupByYear = $request->input('group-by-year');
+        $movement = [];
+
+        if ($groupByCategory) {
+            $categories = MovementModel::select('categoria')
+                ->groupBy('categoria')
+                ->get();
+            $movement['categories'] = $categories;
+        }
+
+        if ($groupByMonth) {
+            $months = MovementModel::select('mes')
+                ->groupBy('mes')
+                ->get();
+            $movement['months'] = $months;
+        }
+
+        if ($groupByYear) {
+            $years = MovementModel::select('ano')
+                ->groupBy('ano')
+                ->get();
+            $movement['years'] = $years;
+        }
+
         return response()->json($movement);
     }
 
