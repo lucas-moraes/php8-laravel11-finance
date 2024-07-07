@@ -5,12 +5,15 @@
 
 import { FormatNumberToCurrency } from '../../js/tools.js';
 
-document.addEventListener('DOMContentLoaded', async function () {
+window.getMovementsFiltered = async function () {
   const s = window.GlobalStore;
   const month = s.getData('month');
   const year = s.getData('year');
+  const category = s.getData('category');
 
-  await fetch(`/movement/filter?year=${year}&month=${month}`)
+  await fetch(
+    `/movement/filter?year=${year}&month=${month}${category > 0 ? `&category=${category}` : ''}`
+  )
     .then((response) => response.json())
     .then((data) => {
       const newList = data.map((movement) => {
@@ -59,4 +62,9 @@ document.addEventListener('DOMContentLoaded', async function () {
       const resumeMonthSumary = document.getElementById('tableSumary');
       resumeMonthSumary.innerHTML = sumaryHtml;
     });
-});
+};
+
+document.addEventListener(
+  'DOMContentLoaded',
+  await window.getMovementsFiltered()
+);

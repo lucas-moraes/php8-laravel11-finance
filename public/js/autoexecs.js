@@ -9,6 +9,8 @@ async function getCategories() {
 }
 
 async function getMonthAndYearAndCategoryForFillSelects() {
+  const month = window.GlobalStore.getData('month');
+  const year = window.GlobalStore.getData('year');
   const monthDictionary = {
     1: 'Janeiro',
     2: 'Fevereiro',
@@ -44,26 +46,49 @@ async function getMonthAndYearAndCategoryForFillSelects() {
       const categoriesOptionList =
         document.getElementById('categoryOptionList');
       categoryOptionList.innerHTML = categoryListHtml;
+      categoriesOptionList.addEventListener('change', (event) => {
+        window.GlobalStore.setData('category', event.target.value);
+      });
       /*************/
 
       /* Month */
       const monthList = data?.months?.map((item) => {
         return ` <option value='${item.mes}'>${monthDictionary[item.mes]}</option>`;
       });
-      monthList.unshift(`<option value='0' selected>Mês</option>`);
       const monthListHtml = monthList.join('');
       const monthsOptionList = document.getElementById('monthOptionList');
       monthsOptionList.innerHTML = monthListHtml;
+
+      for (let i = 0; i < monthsOptionList.options.length; i++) {
+        if (monthsOptionList.options[i].value == month) {
+          monthsOptionList.options[i].selected = true;
+          break;
+        }
+      }
+
+      monthsOptionList.addEventListener('change', (event) => {
+        window.GlobalStore.setData('month', event.target.value);
+      });
       /***********/
 
       /* Year */
       const yearList = data?.years?.map((item) => {
         return ` <option value='${item.ano}'>${item.ano}</option>`;
       });
-      yearList.unshift(`<option value='0' selected>Ano</option>`);
       const yearListHtml = yearList.join('');
       const yearsOptionList = document.getElementById('yearOptionList');
       yearsOptionList.innerHTML = yearListHtml;
+
+      for (let i = 0; i < yearsOptionList.options.length; i++) {
+        if (yearsOptionList.options[i].value == year) {
+          yearsOptionList.options[i].selected = true;
+          break;
+        }
+      }
+
+      yearsOptionList.addEventListener('change', (event) => {
+        window.GlobalStore.setData('year', event.target.value);
+      });
       /***********/
     });
 }

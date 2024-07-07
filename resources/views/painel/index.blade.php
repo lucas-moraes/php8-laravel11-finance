@@ -18,7 +18,7 @@
             <div class="select">
                 <select id="yearOptionList"></select>
             </div>
-            <button class="button is-primary"><i class="fas fa-filter mr-2"></i>Filtrar</button>
+            <button class="button is-primary" onclick="getMovementsFiltered()"><i class="fas fa-filter mr-2"></i>Filtrar</button>
         </div>
         <div>
             <button class="button has-background-link-light"><i class="fas fa-plus mr-2"></i>Categorias</button>
