@@ -373,6 +373,74 @@
             }
         },
         "/movement/{rowid}": {
+            "get": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Obter um movimento pelo ID",
+                "operationId": "21cb5e4f239f668a5cae910901c57927",
+                "parameters": [
+                    {
+                        "name": "rowid",
+                        "in": "path",
+                        "description": "ID do movimento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movimento encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "rowid": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "dia": {
+                                            "type": "integer",
+                                            "example": 15
+                                        },
+                                        "mes": {
+                                            "type": "integer",
+                                            "example": 8
+                                        },
+                                        "ano": {
+                                            "type": "integer",
+                                            "example": 2024
+                                        },
+                                        "tipo": {
+                                            "type": "string",
+                                            "example": "Expense"
+                                        },
+                                        "categoria": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "descricao": {
+                                            "type": "string",
+                                            "example": "Grocery shopping"
+                                        },
+                                        "valor": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 150.75
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Movimento não encontrado"
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "Movements"

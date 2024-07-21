@@ -99,10 +99,6 @@ class MovementController extends Controller
      *             example=1
      *         ),
      *         description="Month to filter by"
-     *         description="Month to filter by"
-     *         description="Month to filter by"
-     *         description="Month to filter by"
-     *         description="Month to filter by"
      *     ),
      *     @OA\Parameter(
      *         name="category",
@@ -601,5 +597,51 @@ class MovementController extends Controller
         $movements->push(['totalYear' => $totalValue]);
 
         return response()->json($movements);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/movement/{rowid}",
+     *     summary="Obter um movimento pelo ID",
+     *     tags={"Movements"},
+     *     @OA\Parameter(
+     *         name="rowid",
+     *         in="path",
+     *         description="ID do movimento",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Movimento encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="rowid", type="integer", example=1),
+     *             @OA\Property(property="dia", type="integer", example=15),
+     *             @OA\Property(property="mes", type="integer", example=8),
+     *             @OA\Property(property="ano", type="integer", example=2024),
+     *             @OA\Property(property="tipo", type="string", example="Expense"),
+     *             @OA\Property(property="categoria", type="integer", example=1),
+     *             @OA\Property(property="descricao", type="string", example="Grocery shopping"),
+     *             @OA\Property(property="valor", type="number", format="float", example=150.75)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Movimento não encontrado"
+     *     )
+     * )
+     */
+
+    public function getMovementById($rowid)
+    {
+        $movement = MovementModel::select('lc_movimento.*', 'rowid')->where('rowid', $rowid)->first();
+
+        if ($movement) {
+            return response()->json($movement);
+        }
     }
 }

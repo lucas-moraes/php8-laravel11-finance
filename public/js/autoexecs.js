@@ -49,6 +49,11 @@ async function getMonthAndYearAndCategoryForFillSelects() {
       categoriesOptionList.addEventListener('change', (event) => {
         window.GlobalStore.setData('category', event.target.value);
       });
+      const modalMovementInsertCategoriesOptionList = document.getElementById(
+        'modalMovementInsertCategoria'
+      );
+      modalMovementInsertCategoriesOptionList.innerHTML = categoryListHtml;
+
       /*************/
 
       /* Month */
