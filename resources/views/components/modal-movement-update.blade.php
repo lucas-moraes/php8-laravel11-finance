@@ -5,13 +5,13 @@
       <p class="modal-card-title has-text-light">Atualizar movimento</p>
       <button class="delete" aria-label="close" onclick="ToggleModalMovementUpdate()"></button>
     </header>
-    <form class="modal-card-body" id="formInsertMovement">
+    <form class="modal-card-body" id="formUpdateMovement">
       <div class="columns">
         <div class="column is-4">
           <div class="field">
             <label class="label is-small">Data</label>
             <div class="constrol">
-              <input id="modalMovementInsertDate" class="input is-small" type="date" name="date"/>
+              <input id="modalMovementUpdateDate" class="input is-small" type="date" name="date"/>
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
             <label class="label is-small">Categorias</label>
             <div class="control">
               <div class="select is-small">
-                <select id="modalMovementInsertCategoria" name="category"></select>
+                <select id="modalMovementUpdateCategoria" name="category"></select>
               </div>
             </div>
           </div>
@@ -30,7 +30,7 @@
             <label class="label is-small">Movimento</label>
             <div class="control">
               <div class="select is-small">
-                <select id="tipo" name="movType">
+                <select id="modalMovementUpdateTipo" name="movType">
                   <option value="entrada">Entrada de dinheiro</option>
                   <option value="saida">Saída de dinheiro</option>
                 </select>
@@ -43,22 +43,23 @@
         <div class="column is-3">
           <div class="field">
             <label class="label is-small">Valor</label>
-            <input type="text" class="input is-small" id="modalMovementInsertPreco" name="price"/>
+            <input type="text" class="input is-small" id="modalMovementUpdatePreco" name="price"/>
           </div>
         </div>
         <div class="column is-9">
           <div class="field">
             <label class="label is-small">Descrição</label>
-            <input class="input is-small" id="descricao" type="text" name="description"/>
+            <input class="input is-small" id="modalMovementUpdateDescricao" type="text" name="description"/>
           </div>
         </div>
       </div>
+      <input type="hidden" id="modalMovementUpdateId" name="id"/>
     </form>
     <footer class="modal-card-foot">
       <div>
-        <button class="button is-success" onclick="RegisterMovement()">Registrar</button>
+        <button class="button is-success" onclick="UpdateMovement()">Alterar</button>
       </div>
-     <button class="ml-2 button" onclick="ToggleModalMovementInsert()">Cancelar</button>
+     <button class="ml-2 button" onclick="ToggleModalMovementUpdate()">Cancelar</button>
     </footer>
   </div>
  </div>

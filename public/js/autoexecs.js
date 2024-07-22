@@ -53,7 +53,10 @@ async function getMonthAndYearAndCategoryForFillSelects() {
         'modalMovementInsertCategoria'
       );
       modalMovementInsertCategoriesOptionList.innerHTML = categoryListHtml;
-
+      const modalMovementUpdateCategoriesOptionList = document.getElementById(
+        'modalMovementUpdateCategoria'
+      );
+      modalMovementUpdateCategoriesOptionList.innerHTML = categoryListHtml;
       /*************/
 
       /* Month */
