@@ -12,7 +12,7 @@
       <div class="tile">
         <div class="tile is-parent is-vertical">
           <article class="tile is-child box notification is-white">
-            <p class="title is-4">Movimento de <span id="month">mês</span></p>
+            <p class="title is-4">Movimento de <span id="monthLong">mês</span></p>
 
             <x-card-movement-month></x-card-movement-month>
 

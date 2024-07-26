@@ -8,10 +8,12 @@ import { FormatNumberToCurrency } from '../../js/tools.js';
 document.addEventListener('DOMContentLoaded', async function () {
   const s = window.GlobalStore;
   const monthNumber = s.getData('month');
-  const monthLong = monthNumber.toLocaleString('pt-BR', { month: 'long' });
   const year = s.getData('year');
+  const monthLong = new Date(year, monthNumber - 1, 1).toLocaleString('pt-BR', {
+    month: 'long',
+  });
 
-  document.getElementById('month').textContent = monthLong;
+  document.getElementById('monthLong').textContent = monthLong;
 
   await fetch(`/movement/filter?year=${year}&month=${monthNumber}`)
     .then((response) => response.json())
