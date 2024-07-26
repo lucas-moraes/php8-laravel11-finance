@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const date = new Date();
   const year = date.getFullYear();
 
-  await fetch(`/movement/filter-year-group-by-month?year=${year}`)
+  await fetch(`/movement/filter-year-group-by-month/${year}`)
     .then((response) => response.json())
     .then((data) => {
       const newList = data.map((movement) => {

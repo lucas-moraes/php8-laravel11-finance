@@ -529,10 +529,8 @@ class MovementController extends Controller
      * )
      */
 
-    public function getMovementsByYearGroupByMonth(Request $request)
+    public function getMovementsByYearGroupByMonth($year)
     {
-        $year = $request->input('year');
-
         $movements = MovementModel::select('mes', DB::raw('SUM(valor) as total'))
             ->where('ano', $year)
             ->groupBy('mes')
@@ -582,10 +580,8 @@ class MovementController extends Controller
      * )
      */
 
-    public function getMovementsByYearGroupByCategory(Request $request)
+    public function getMovementsByYearGroupByCategory($year)
     {
-        $year = $request->input('year');
-
         $movements = MovementModel::select('categoria', DB::raw('SUM(valor) as total'))
             ->where('ano', $year)
             ->groupBy('categoria')

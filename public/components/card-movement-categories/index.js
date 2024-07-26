@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const year = date.getFullYear();
   document.getElementById('year').textContent = year;
 
-  await fetch(`/movement/filter-year-group-by-category?year=${year}`)
+  await fetch(`/movement/filter-year-group-by-category/${year}`)
     .then((response) => response.json())
     .then((data) => {
       const newList = data.map((movement) => {
