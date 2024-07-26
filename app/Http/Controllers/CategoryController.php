@@ -9,23 +9,23 @@ class CategoryController extends Controller
 {
 
     /**
-    * @OA\Get(
-    *    path="/category/get-all",
-    *    summary="Retorna todas as categorias",
-    *    tags={"Categories"},
-    *    @OA\Response(
-    *       response=200,
-    *       description="Success",
-    *       @OA\JsonContent(
-    *           type="array",
-    *           @OA\Items(
-    *               @OA\Property(property="idCategory", type="integer"),
-    *               @OA\Property(property="descricao", type="string"),
-    *           )
-    *       )
-    *    )
-    * )
-    */
+     * @OA\Get(
+     *    path="/category/get-all",
+     *    summary="Retorna todas as categorias",
+     *    tags={"Categories"},
+     *    @OA\Response(
+     *       response=200,
+     *       description="Success",
+     *       @OA\JsonContent(
+     *           type="array",
+     *           @OA\Items(
+     *               @OA\Property(property="idCategory", type="integer"),
+     *               @OA\Property(property="descricao", type="string"),
+     *           )
+     *       )
+     *    )
+     * )
+     */
 
     public function getAllCategories()
     {
@@ -74,7 +74,9 @@ class CategoryController extends Controller
             'descricao' => 'required|string|max:255',
         ]);
 
-        $category = CategoryModel::create($validatedData);
-        return response()->json(null, 201);
+        $category = CategoryModel::create([
+            'descricao' => $validatedData['descricao']
+        ]);
+        return response()->json($category, 201);
     }
 }

@@ -6,6 +6,7 @@
 
 <x-modal-movement-create></x-modal-movement-create>
 <x-modal-movement-update></x-modal-movement-update>
+<x-modal-movement-category></x-modal-movement-category>
 
 
 <div class="container" id="animation">
@@ -26,7 +27,7 @@
             <button class="button is-primary" onclick="getMovementsFiltered()"><i class="fas fa-filter mr-2"></i>Filtrar</button>
         </div>
         <div>
-            <button class="button has-background-link-light"><i class="fas fa-plus mr-2"></i>Categorias</button>
+            <button class="button has-background-link-light" onclick="ToggleModalCategory()"><i class="fas fa-plus mr-2"></i>Categorias</button>
             <button class="button has-background-danger-light"><i class="fas fa-plus mr-2"></i>Conjunto</button>
             <button class="button is-info" onclick="ToggleModalMovementInsert()"><i class="fas fa-plus mr-2"></i>Movimento</button>
         </div>

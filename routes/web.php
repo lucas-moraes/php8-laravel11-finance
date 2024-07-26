@@ -28,4 +28,4 @@ Route::get('/movement/{rowid}', [MovementController::class, 'getMovementById']);
 Route::get('/movement/filter-year-group-by-month', [MovementController::class, 'getMovementsByYearGroupByMonth']);
 Route::get('/movement/filter-year-group-by-category', [MovementController::class, 'getMovementsByYearGroupByCategory']);
 Route::get('/category/get-all', [CategoryController::class, 'getAllCategories']);
-Route::get('/category/create', [CategoryController::class, 'createCategory']);
+Route::post('/category/create', [CategoryController::class, 'createCategory']);
