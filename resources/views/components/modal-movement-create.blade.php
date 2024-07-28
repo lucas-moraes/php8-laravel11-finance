@@ -64,4 +64,7 @@
  </div>
 </div>
 
+
+
 <script type="module" src="{{ asset('components/modal-movement-create/index.js') }}"></script>
+

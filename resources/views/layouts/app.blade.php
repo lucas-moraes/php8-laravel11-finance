@@ -8,6 +8,7 @@
     <style>
         html {
             background-color: #f5f5f5;
+            user-select: none;
         }
     </style>
     @yield('styles')

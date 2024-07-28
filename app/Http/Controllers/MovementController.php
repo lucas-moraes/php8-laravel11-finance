@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\DB;
 
 class MovementController extends Controller
 {
-
-
     /**
      * @OA\Get(
      *    path="/movement/get-all",
@@ -45,33 +43,38 @@ class MovementController extends Controller
 
     public function getAllMovements(Request $request)
     {
-        $groupByCategory = $request->input('group-by-category');
-        $groupByMonth = $request->input('group-by-month');
-        $groupByYear = $request->input('group-by-year');
-        $movement = [];
+        try {
+            $groupByCategory = $request->input('group-by-category');
+            $groupByMonth = $request->input('group-by-month');
+            $groupByYear = $request->input('group-by-year');
+            $movement = [];
 
-        if ($groupByCategory) {
-            $categories = MovementModel::select('categoria')
-                ->groupBy('categoria')
-                ->get();
-            $movement['categories'] = $categories;
+            if ($groupByCategory) {
+                $categories = MovementModel::select('categoria')
+                    ->groupBy('categoria')
+                    ->get();
+                $movement['categories'] = $categories;
+            }
+
+            if ($groupByMonth) {
+                $months = MovementModel::select('mes')
+                    ->groupBy('mes')
+                    ->get();
+                $movement['months'] = $months;
+            }
+
+            if ($groupByYear) {
+                $years = MovementModel::select('ano')
+                    ->groupBy('ano')
+                    ->get();
+                $movement['years'] = $years;
+            }
+
+            return response()->json($movement);
+        } catch (\Exception $e) {
+            Log::error('Error getting all movements - ' . $e->getMessage());
+            return response()->json(['error' => 'Could not get all movements'], 500);
         }
-
-        if ($groupByMonth) {
-            $months = MovementModel::select('mes')
-                ->groupBy('mes')
-                ->get();
-            $movement['months'] = $months;
-        }
-
-        if ($groupByYear) {
-            $years = MovementModel::select('ano')
-                ->groupBy('ano')
-                ->get();
-            $movement['years'] = $years;
-        }
-
-        return response()->json($movement);
     }
 
 
@@ -134,27 +137,32 @@ class MovementController extends Controller
 
     public function getByMonthAndYearAndCategory(Request $request)
     {
-        $category = $request->input('category');
-        $month = $request->input('month');
-        $year = $request->input('year');
+        try {
+            $category = $request->input('category');
+            $month = $request->input('month');
+            $year = $request->input('year');
 
-        $query = MovementModel::select('lc_movimento.*', 'rowid')->where('ano',  $year);
+            $query = MovementModel::select('lc_movimento.*', 'rowid')->where('ano',  $year);
 
-        if ($month) {
-            $query = $query->where('mes', $month);
+            if ($month) {
+                $query = $query->where('mes', $month);
+            }
+
+            if ($category) {
+                $query = $query->where('categoria', $category);
+            }
+
+            $movements = $query->orderBy('valor', 'desc')->get();
+
+            $totalValue = $movements->sum('valor');
+
+            $movements->push(['total' => $totalValue]);
+
+            return response()->json($movements);
+        } catch (\Exception $e) {
+            Log::error('Error getting movements by month, year, and category - ' . $e->getMessage());
+            return response()->json(['error' => 'Could not get movements by month, year, and category'], 500);
         }
-
-        if ($category) {
-            $query = $query->where('categoria', $category);
-        }
-
-        $movements = $query->orderBy('valor', 'desc')->get();
-
-        $totalValue = $movements->sum('valor');
-
-        $movements->push(['total' => $totalValue]);
-
-        return response()->json($movements);
     }
 
     /**
@@ -531,12 +539,16 @@ class MovementController extends Controller
 
     public function getMovementsByYearGroupByMonth($year)
     {
-        $movements = MovementModel::select('mes', DB::raw('SUM(valor) as total'))
-            ->where('ano', $year)
-            ->groupBy('mes')
-            ->get();
-
-        return response()->json($movements);
+        try {
+            $movements = MovementModel::select('mes', DB::raw('SUM(valor) as total'))
+                ->where('ano', $year)
+                ->groupBy('mes')
+                ->get();
+            return response()->json($movements);
+        } catch (\Exception $e) {
+            Log::error('Error getting movements grouped by month for year ' . $year . ' - ' . $e->getMessage());
+            return response()->json(['error' => 'Could not get movements grouped by month'], 500);
+        }
     }
 
     /**
@@ -582,17 +594,22 @@ class MovementController extends Controller
 
     public function getMovementsByYearGroupByCategory($year)
     {
-        $movements = MovementModel::select('categoria', DB::raw('SUM(valor) as total'))
-            ->where('ano', $year)
-            ->groupBy('categoria')
-            ->orderBy('total', 'desc')
-            ->get();
+        try {
+            $movements = MovementModel::select('categoria', DB::raw('SUM(valor) as total'))
+                ->where('ano', $year)
+                ->groupBy('categoria')
+                ->orderBy('total', 'desc')
+                ->get();
 
-        $totalValue = $movements->sum('total');
+            $totalValue = $movements->sum('total');
 
-        $movements->push(['totalYear' => $totalValue]);
+            $movements->push(['totalYear' => $totalValue]);
 
-        return response()->json($movements);
+            return response()->json($movements);
+        } catch (\Exception $e) {
+            Log::error('Error getting movements grouped by category for year ' . $year . ' - ' . $e->getMessage());
+            return response()->json(['error' => 'Could not get movements grouped by category'], 500);
+        }
     }
 
 
@@ -634,10 +651,186 @@ class MovementController extends Controller
 
     public function getMovementById($rowid)
     {
-        $movement = MovementModel::select('lc_movimento.*', 'rowid')->where('rowid', $rowid)->first();
+        try {
+            $movement = MovementModel::select('lc_movimento.*', 'rowid')->where('rowid', $rowid)->first();
 
-        if ($movement) {
-            return response()->json($movement);
+            if ($movement) {
+                return response()->json($movement);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error getting movement by ID - ' . $e->getMessage());
+            return response()->json(['error' => 'Could not get movement by ID'], 500);
+        }
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/movements/batch",
+     *     summary="Criar múltiplos movimentos",
+     *     tags={"Movements"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="dia",
+     *                     type="integer",
+     *                     description="Dia do movimento",
+     *                     example=15,
+     *                     minimum=1,
+     *                     maximum=31
+     *                 ),
+     *                 @OA\Property(
+     *                     property="mes",
+     *                     type="integer",
+     *                     description="Mês do movimento",
+     *                     example=8,
+     *                     minimum=1,
+     *                     maximum=12
+     *                 ),
+     *                 @OA\Property(
+     *                     property="ano",
+     *                     type="integer",
+     *                     description="Ano do movimento",
+     *                     example=2024,
+     *                     minimum=2000
+     *                 ),
+     *                 @OA\Property(
+     *                     property="tipo",
+     *                     type="string",
+     *                     description="Tipo do movimento",
+     *                     example="Despesa",
+     *                     maxLength=255
+     *                 ),
+     *                 @OA\Property(
+     *                     property="categoria",
+     *                     type="integer",
+     *                     description="Categoria do movimento",
+     *                     example=1
+     *                 ),
+     *                 @OA\Property(
+     *                     property="descricao",
+     *                     type="string",
+     *                     description="Descrição do movimento",
+     *                     example="Compra de materiais",
+     *                     maxLength=255,
+     *                     nullable=true
+     *                 ),
+     *                 @OA\Property(
+     *                     property="valor",
+     *                     type="number",
+     *                     description="Valor do movimento",
+     *                     example=250.75
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Movimentos criados com sucesso",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="integer",
+     *                     description="ID do movimento"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="dia",
+     *                     type="integer",
+     *                     description="Dia do movimento"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="mes",
+     *                     type="integer",
+     *                     description="Mês do movimento"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="ano",
+     *                     type="integer",
+     *                     description="Ano do movimento"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="tipo",
+     *                     type="string",
+     *                     description="Tipo do movimento"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="categoria",
+     *                     type="integer",
+     *                     description="Categoria do movimento"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="descricao",
+     *                     type="string",
+     *                     description="Descrição do movimento",
+     *                     nullable=true
+     *                 ),
+     *                 @OA\Property(
+     *                     property="valor",
+     *                     type="number",
+     *                     description="Valor do movimento"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="created_at",
+     *                     type="string",
+     *                     format="date-time",
+     *                     description="Data de criação"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="updated_at",
+     *                     type="string",
+     *                     format="date-time",
+     *                     description="Data de atualização"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Erro ao criar os movimentos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="string",
+     *                 description="Mensagem de erro"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
+
+    public function createMultipleMovements(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                '*.dia' => 'required|integer|between:1,31',
+                '*.mes' => 'required|integer|between:1,12',
+                '*.ano' => 'required|integer|min:2000',
+                '*.tipo' => 'required|string|max:255',
+                '*.categoria' => 'required|integer',
+                '*.descricao' => 'nullable|string|max:255',
+                '*.valor' => 'required|numeric',
+            ]);
+
+            $movements = [];
+            foreach ($validatedData as $item) {
+                if (!isset($item['descricao']))
+                    $item['descricao'] = '';
+                $movement = MovementModel::create($item);
+                $movements[] = $movement;
+            }
+
+            return response()->json(201);
+        } catch (\Exception $e) {
+            Log::error('Error creating batch movements - ' . $e->getMessage());
+            return response()->json(['error' => 'Could not create batch movements'], 500);
         }
     }
 }

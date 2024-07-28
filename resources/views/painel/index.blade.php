@@ -7,6 +7,7 @@
 <x-modal-movement-create></x-modal-movement-create>
 <x-modal-movement-update></x-modal-movement-update>
 <x-modal-movement-category></x-modal-movement-category>
+<x-modal-movement-batch></x-modal-movement-batch>
 
 
 <div class="container" id="animation">
@@ -28,7 +29,7 @@
         </div>
         <div>
             <button class="button has-background-link-light" onclick="ToggleModalCategory()"><i class="fas fa-plus mr-2"></i>Categorias</button>
-            <button class="button has-background-danger-light"><i class="fas fa-plus mr-2"></i>Conjunto</button>
+            <button class="button has-background-danger-light" onclick="ToggleModalBatch()"><i class="fas fa-plus mr-2"></i>Conjunto</button>
             <button class="button is-info" onclick="ToggleModalMovementInsert()"><i class="fas fa-plus mr-2"></i>Movimento</button>
         </div>
     </div>

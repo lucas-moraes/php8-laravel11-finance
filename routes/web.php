@@ -26,6 +26,7 @@ Route::get('/movement/filter-year-group-by-category/{year}', [MovementController
 Route::get('/category/get-all', [CategoryController::class, 'getAllCategories']);
 Route::post('/category/create', [CategoryController::class, 'createCategory']);
 Route::post('/movement/create', [MovementController::class, 'createMovement']);
+Route::post('/movement/create-multiple', [MovementController::class, 'createMultipleMovements']);
 Route::delete('/movement/{rowid}', [MovementController::class, 'deleteById']);
 Route::put('/movement/{rowid}', [MovementController::class, 'updateFullMovementById']);
 Route::patch('/movement/{rowid}', [MovementController::class, 'updatePartialMovementById']);

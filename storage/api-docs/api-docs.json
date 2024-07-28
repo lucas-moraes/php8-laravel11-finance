@@ -889,6 +889,149 @@
                     }
                 }
             }
+        },
+        "/movements/batch": {
+            "post": {
+                "tags": [
+                    "Movements"
+                ],
+                "summary": "Criar múltiplos movimentos",
+                "operationId": "4fd590b8bf45751dcf1456f1a32ab8e3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "dia": {
+                                            "description": "Dia do movimento",
+                                            "type": "integer",
+                                            "maximum": 31,
+                                            "minimum": 1,
+                                            "example": 15
+                                        },
+                                        "mes": {
+                                            "description": "Mês do movimento",
+                                            "type": "integer",
+                                            "maximum": 12,
+                                            "minimum": 1,
+                                            "example": 8
+                                        },
+                                        "ano": {
+                                            "description": "Ano do movimento",
+                                            "type": "integer",
+                                            "minimum": 2000,
+                                            "example": 2024
+                                        },
+                                        "tipo": {
+                                            "description": "Tipo do movimento",
+                                            "type": "string",
+                                            "maxLength": 255,
+                                            "example": "Despesa"
+                                        },
+                                        "categoria": {
+                                            "description": "Categoria do movimento",
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "descricao": {
+                                            "description": "Descrição do movimento",
+                                            "type": "string",
+                                            "maxLength": 255,
+                                            "example": "Compra de materiais",
+                                            "nullable": true
+                                        },
+                                        "valor": {
+                                            "description": "Valor do movimento",
+                                            "type": "number",
+                                            "example": 250.75
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Movimentos criados com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "description": "ID do movimento",
+                                                "type": "integer"
+                                            },
+                                            "dia": {
+                                                "description": "Dia do movimento",
+                                                "type": "integer"
+                                            },
+                                            "mes": {
+                                                "description": "Mês do movimento",
+                                                "type": "integer"
+                                            },
+                                            "ano": {
+                                                "description": "Ano do movimento",
+                                                "type": "integer"
+                                            },
+                                            "tipo": {
+                                                "description": "Tipo do movimento",
+                                                "type": "string"
+                                            },
+                                            "categoria": {
+                                                "description": "Categoria do movimento",
+                                                "type": "integer"
+                                            },
+                                            "descricao": {
+                                                "description": "Descrição do movimento",
+                                                "type": "string",
+                                                "nullable": true
+                                            },
+                                            "valor": {
+                                                "description": "Valor do movimento",
+                                                "type": "number"
+                                            },
+                                            "created_at": {
+                                                "description": "Data de criação",
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "updated_at": {
+                                                "description": "Data de atualização",
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao criar os movimentos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "description": "Mensagem de erro",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
