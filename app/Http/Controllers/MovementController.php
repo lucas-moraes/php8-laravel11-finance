@@ -272,7 +272,7 @@ class MovementController extends Controller
     {
         try {
             $deleted = DB::delete('delete from lc_movimento where rowid = ?', [$rowid]);
-            return response()->json(null, 204);
+            return response()->json($deleted, 204);
         } catch (\Exception $e) {
             Log::error('Error deleting movement with rowid: ' . $rowid . ' - ' . $e->getMessage());
             return response()->json(['error' => 'Could not delete movement'], 500);
