@@ -63,6 +63,7 @@ window.UpdateMovement = function (id) {
   let formPrice = formData.get('price');
   formPrice = formPrice.replace(/[^\d,]/g, '').replace(',', '.');
   formPrice = parseFloat(formPrice);
+  formPrice = formTypeMovement !== 'entrada' ? formPrice * -1 : formPrice;
   const formDescription = formData.get('description');
   const formItemId = formData.get('id');
 

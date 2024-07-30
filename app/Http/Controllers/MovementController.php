@@ -349,7 +349,7 @@ class MovementController extends Controller
             'ano' => 'required|integer|min:2000',
             'tipo' => 'required|string|max:255',
             'categoria' => 'required|integer',
-            'descricao' => 'required|string|max:255',
+            'descricao' => 'nullable|string|max:255',
             'valor' => 'required|numeric',
         ]);
 
