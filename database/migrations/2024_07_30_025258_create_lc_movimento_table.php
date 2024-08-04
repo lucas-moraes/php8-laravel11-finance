@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('lc_movimento', function (Blueprint $table) {
-            $table->increments('id')->nullable();
             $table->integer('dia')->nullable();
             $table->integer('mes')->nullable();
             $table->integer('ano')->nullable();
