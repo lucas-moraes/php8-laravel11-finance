@@ -6,6 +6,20 @@ async function getCategories() {
     .then((data) => {
       return data;
     });
+  const categoriesList = window.categories.map((item) => {
+    return ` <option value='${item.idCategory}'>${item.descricao}</option>`;
+  });
+  categoriesList.unshift(`<option value='0' selected>Categoria</option>`);
+  const categoryListHtml = categoriesList.join('');
+
+  const modalMovementInsertCategoriesOptionList = document.getElementById(
+    'modalMovementInsertCategoria'
+  );
+  modalMovementInsertCategoriesOptionList.innerHTML = categoryListHtml;
+  const modalMovementUpdateCategoriesOptionList = document.getElementById(
+    'modalMovementUpdateCategoria'
+  );
+  modalMovementUpdateCategoriesOptionList.innerHTML = categoryListHtml;
 }
 
 async function getMonthAndYearAndCategoryForFillSelects() {
@@ -45,24 +59,17 @@ async function getMonthAndYearAndCategoryForFillSelects() {
       const categoryListHtml = categoriesList.join('');
       const categoriesOptionList =
         document.getElementById('categoryOptionList');
-      categoryOptionList.innerHTML = categoryListHtml;
       categoriesOptionList.addEventListener('change', (event) => {
         window.GlobalStore.setData('category', event.target.value);
       });
-      const modalMovementInsertCategoriesOptionList = document.getElementById(
-        'modalMovementInsertCategoria'
-      );
-      modalMovementInsertCategoriesOptionList.innerHTML = categoryListHtml;
-      const modalMovementUpdateCategoriesOptionList = document.getElementById(
-        'modalMovementUpdateCategoria'
-      );
-      modalMovementUpdateCategoriesOptionList.innerHTML = categoryListHtml;
+      categoryOptionList.innerHTML = categoryListHtml;
       /*************/
 
       /* Month */
       const monthList = data?.months?.map((item) => {
         return ` <option value='${item.mes}'>${monthDictionary[item.mes]}</option>`;
       });
+      monthList.unshift(`<option value='0' selected>Mês</option>`);
       const monthListHtml = monthList.join('');
       const monthsOptionList = document.getElementById('monthOptionList');
       monthsOptionList.innerHTML = monthListHtml;
@@ -83,6 +90,7 @@ async function getMonthAndYearAndCategoryForFillSelects() {
       const yearList = data?.years?.map((item) => {
         return ` <option value='${item.ano}'>${item.ano}</option>`;
       });
+      yearList.unshift(`<option value='0' selected>Ano</option>`);
       const yearListHtml = yearList.join('');
       const yearsOptionList = document.getElementById('yearOptionList');
       yearsOptionList.innerHTML = yearListHtml;

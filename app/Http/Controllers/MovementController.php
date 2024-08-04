@@ -142,7 +142,7 @@ class MovementController extends Controller
             $month = $request->input('month');
             $year = $request->input('year');
 
-            $query = MovementModel::select('lc_movimento.*', 'rowid')->where('ano',  $year);
+            $query = MovementModel::select('lc_movimento.*', DB::raw('rowid'))->where('ano',  $year);
 
             if ($month) {
                 $query = $query->where('mes', $month);
@@ -226,9 +226,13 @@ class MovementController extends Controller
                 'ano' => 'required|integer|min:2000',
                 'tipo' => 'required|string|max:255',
                 'categoria' => 'required|integer',
-                'descricao' => 'required|string|max:255',
+                'descricao' => 'nullable|string|max:255',
                 'valor' => 'required|numeric',
             ]);
+
+            if (!isset($validatedData['descricao'])) {
+                $validatedData['descricao'] = '';
+            }
 
             $movement = MovementModel::create($validatedData);
             return response()->json($movement, 201);
