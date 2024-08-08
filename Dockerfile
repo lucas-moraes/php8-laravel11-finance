@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     zip \
     unzip \
+    nano \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     && docker-php-ext-install pdo
@@ -31,6 +32,8 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/ht
 
 # Habilitar mod_rewrite no Apache
 RUN a2enmod rewrite
+
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Expor a porta 80
 EXPOSE 80
