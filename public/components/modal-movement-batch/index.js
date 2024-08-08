@@ -79,7 +79,7 @@ window.saveBatch = async function () {
     });
     return {
       dia: movement.dia,
-      mes: movement.mes,
+      mes: movement.mes + 1,
       ano: movement.ano,
       categoria: movement.categoria,
       tipo: movement.tipo,
