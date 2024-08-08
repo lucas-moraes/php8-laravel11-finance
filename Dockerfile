@@ -22,9 +22,10 @@ WORKDIR /var/www/html
 # Copiar o conteúdo do projeto para o diretório de trabalho
 COPY . .
 
-RUN rm /etc/apache2/apache2.conf /etc/apache2/sites-available/000-default.conf
+RUN rm /etc/apache2/apache2.conf /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
 COPY apache-config/apache2.conf /etc/apache2/apache2.conf
 COPY apache-config/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY apache-config/ports.conf /etc/apache2/ports.conf
 
 # Dar permissão ao diretório de armazenamento e cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
