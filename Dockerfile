@@ -33,10 +33,12 @@ RUN php artisan route:cache
 RUN rm /etc/apache2/apache2.conf
 RUN rm /etc/apache2/ports.conf
 RUN rm /etc/apache2/sites-available/000-default.conf
+RUN rm /etc/apache2/sites-enabled/000-default.conf
 
 # Copiar arquivos de configuração personalizados para o Apache
 COPY apache-config/apache2.conf /etc/apache2/apache2.conf
 COPY apache-config/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY apache-config/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 COPY apache-config/ports.conf /etc/apache2/ports.conf
 
 # Dar permissão ao diretório de armazenamento e cache
