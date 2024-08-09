@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     nano \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
-    && docker-php-ext-install pdo
+    && docker-php-ext-install pdo pdo_mysql pdo_sqlite
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -23,7 +23,11 @@ WORKDIR /var/www/html
 COPY . .
 
 # Instalar as dependências do Composer
-RUN composer install
+RUN composer install --optimize-autoloader --no-dev
+
+# Otimizar a configuração e rotas
+RUN php artisan config:cache
+RUN php artisan route:cache
 
 # Remover arquivos de configuração antigos do Apache
 RUN rm /etc/apache2/apache2.conf
