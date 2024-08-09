@@ -22,7 +22,10 @@ WORKDIR /var/www/html
 # Copiar o conteúdo do projeto para o diretório de trabalho
 COPY . .
 
-RUN rm /etc/apache2/apache2.conf /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
+RUN composer install
+RUN rm /etc/apache2/apache2.conf
+RUN rm /etc/apache2/ports.conf
+RUN rm /etc/apache2/sites-available/000-default.conf
 COPY apache-config/apache2.conf /etc/apache2/apache2.conf
 COPY apache-config/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY apache-config/ports.conf /etc/apache2/ports.conf
