@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
     nano \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
-    && docker-php-ext-install pdo pdo_mysql pdo_sqlite
+    && docker-php-ext-install pdo
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
