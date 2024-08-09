@@ -22,11 +22,15 @@ WORKDIR /var/www/html
 # Copiar o conteúdo do projeto para o diretório de trabalho
 COPY . .
 
+# Instalar as dependências do Composer
 RUN composer install
+
+# Remover arquivos de configuração antigos do Apache
 RUN rm /etc/apache2/apache2.conf
 RUN rm /etc/apache2/ports.conf
 RUN rm /etc/apache2/sites-available/000-default.conf
 
+# Copiar arquivos de configuração personalizados para o Apache
 COPY apache-config/apache2.conf /etc/apache2/apache2.conf
 COPY apache-config/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY apache-config/ports.conf /etc/apache2/ports.conf
@@ -38,6 +42,7 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/ht
 # Habilitar mod_rewrite no Apache
 RUN a2enmod rewrite
 
+# Configurar o ServerName para suprimir a mensagem de aviso
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Expor a porta 80
