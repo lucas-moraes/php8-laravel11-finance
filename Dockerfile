@@ -52,7 +52,7 @@ RUN a2enmod rewrite
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Expor a porta 80
-EXPOSE 3000
+EXPOSE 80
 
 # Comando para iniciar o Apache
 CMD ["apache2-foreground"]
