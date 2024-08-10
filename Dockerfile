@@ -30,11 +30,11 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 
 # Remover arquivos de configuração antigos do Apache
-RUN rm /etc/apache2/apache2.conf
+# RUN rm /etc/apache2/apache2.conf
 RUN rm /etc/apache2/ports.conf
 
 # Copiar arquivos de configuração personalizados para o Apache
-COPY apache-config/apache2.conf /etc/apache2/apache2.conf
+# COPY apache-config/apache2.conf /etc/apache2/apache2.conf
 COPY apache-config/laravel.conf /etc/apache2/sites-available/laravel.conf
 COPY apache-config/ports.conf /etc/apache2/ports.conf
 
@@ -43,7 +43,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
 
 # Habilitar mod_rewrite no Apache
-run a2dissite 000-default.conf
+RUN a2dissite 000-default.conf
 RUN a2ensite laravel.conf
 RUN a2enmod rewrite
 
