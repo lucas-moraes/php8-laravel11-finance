@@ -47,8 +47,6 @@ run a2dissite 000-default.conf
 RUN a2ensite laravel.conf
 RUN a2enmod rewrite
 
-RUN systemctl restart apache2
-
 # Expor a porta 80
 EXPOSE 80
 
