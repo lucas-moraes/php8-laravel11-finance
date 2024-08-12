@@ -3,6 +3,9 @@ FROM php:8.2-apache
 # Instalar dependências do Laravel e extensões PHP necessárias
 RUN docker-php-ext-install pdo
 
+RUN apt-get update && apt-get install -y \
+    nano
+
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
