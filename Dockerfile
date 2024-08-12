@@ -16,7 +16,7 @@ RUN composer install
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 # Expor a porta para o servidor web
-EXPOSE 4000
+EXPOSE 9000
 
 CMD ["php-fpm"]
 
