@@ -7,7 +7,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Configurar diretório de trabalho
-WORKDIR /var/www/html
+WORKDIR /var/www/html/finance
 
 # Copiar arquivos do projeto
 COPY . .
@@ -16,8 +16,8 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # Ajustar permissões de diretório de armazenamento
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 775 /var/wwwhtml/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/finance/storage /var/www/html/finance/bootstrap/cache \
+    && chmod -R 775 /var/www/html/finance/storage /var/www/html/finance/bootstrap/cache
 
 # Habilitar o módulo de reescrita do Apache para permitir URLs amigáveis no Laravel
 RUN a2enmod rewrite
@@ -29,8 +29,8 @@ RUN sed -i 's/:80/:8080/' /etc/apache2/sites-available/000-default.conf
 # Substituir a configuração do VirtualHost
 RUN echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/000-default.conf \
     && echo '    ServerAdmin webmaster@localhost' >> /etc/apache2/sites-available/000-default.conf \
-    && echo '    DocumentRoot /var/www/html/public' >> /etc/apache2/sites-available/000-default.conf \
-    && echo '    <Directory /var/www/html/public>' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '    DocumentRoot /var/www/html/finance/public' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '    <Directory /var/www/html/finance/public>' >> /etc/apache2/sites-available/000-default.conf \
     && echo '        Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/000-default.conf \
     && echo '        AllowOverride All' >> /etc/apache2/sites-available/000-default.conf \
     && echo '        Require all granted' >> /etc/apache2/sites-available/000-default.conf \
