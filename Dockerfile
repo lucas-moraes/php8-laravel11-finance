@@ -1,8 +1,5 @@
 FROM php:8.2-fpm-alpine
 
-# Instalar extensões PHP necessárias
-RUN docker-php-ext-install pdo
-
 # Instalar composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
