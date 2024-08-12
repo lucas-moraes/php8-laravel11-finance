@@ -12,6 +12,11 @@ COPY . .
 # Instalar dependências do Laravel
 RUN composer install
 
+# Criar diretórios necessários e ajustar permissões
+RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
 # Ajustar permissões de diretório de armazenamento
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
