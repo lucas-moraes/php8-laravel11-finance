@@ -27,18 +27,17 @@ RUN sed -i 's/Listen 80/Listen 8080/' /etc/apache2/ports.conf
 RUN sed -i 's/:80/:8080/' /etc/apache2/sites-available/000-default.conf
 
 # Substituir a configuração do VirtualHost
-RUN echo '<VirtualHost *:8080> \
-    ServerAdmin webmaster@localhost \
-    DocumentRoot /var/www/public \
-    <Directory /var/www/public> \
-        Options Indexes FollowSymLinks \
-        AllowOverride All \
-        Require all granted \
-    </Directory> \
-    ErrorLog ${APACHE_LOG_DIR}/error.log \
-    CustomLog ${APACHE_LOG_DIR}/access.log combined \
-</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
-
+RUN echo '<VirtualHost *:8080>' > /etc/apache2/sites-available/000-default.conf \
+    && echo '    ServerAdmin webmaster@localhost' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '    DocumentRoot /var/www/public' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '    <Directory /var/www/public>' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '        Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '        AllowOverride All' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '        Require all granted' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '    </Directory>' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '    ErrorLog ${APACHE_LOG_DIR}/error.log' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '    CustomLog ${APACHE_LOG_DIR}/access.log combined' >> /etc/apache2/sites-available/000-default.conf \
+    && echo '</VirtualHost>' >> /etc/apache2/sites-available/000-default.conf
 
 # Expor a nova porta
 EXPOSE 8080
