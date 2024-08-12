@@ -1,6 +1,9 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-apache
 
-# Instalar composer
+# Instalar dependências do Laravel e extensões PHP necessárias
+RUN docker-php-ext-install pdo
+
+# Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Configurar diretório de trabalho
@@ -10,18 +13,17 @@ WORKDIR /var/www
 COPY . .
 
 # Instalar dependências do Laravel
-RUN composer install
-
-# Criar diretórios necessários e ajustar permissões
-RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
-    && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+RUN composer install --no-dev --optimize-autoloader
 
 # Ajustar permissões de diretório de armazenamento
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
+    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-# Expor a porta para o servidor web
-EXPOSE 9000
+# Habilitar o módulo de reescrita do Apache para permitir URLs amigáveis no Laravel
+RUN a2enmod rewrite
 
-CMD ["php-fpm"]
+# Expor a porta 80
+EXPOSE 80
+
+CMD ["apache2-foreground"]
 
