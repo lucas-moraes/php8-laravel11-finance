@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - '4000:8080'
     volumes:
       - .:/var/www/html/finance
     ports:
