@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-<<<<<<< HEAD
-=======
     ports:
       - '4000:8080'
 >>>>>>> 7a1a0c164f0e6bcc0c93f7908d9475ab97ff94f0
