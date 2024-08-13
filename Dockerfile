@@ -36,8 +36,8 @@ COPY apache-config/000-default.conf /etc/apache2/sites-available/000-default.con
 COPY apache-config/ports.conf /etc/apache2/ports.conf
 
 # Dar permissão ao diretório de armazenamento e cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+RUN chown -R www-data:www-data /var/www/html/finance/storage /var/www/html/finance/bootstrap/cache /var/www/html/finance/database
+RUN chmod -R 775 /var/www/html/finance/storage /var/www/html/finance/bootstrap/cache /var/www/html/finance/database
 
 # Habilitar mod_rewrite no Apache
 RUN a2enmod rewrite
@@ -46,7 +46,7 @@ RUN a2enmod rewrite
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Expor a porta 80
-EXPOSE 80
+EXPOSE 8080
 
 # Comando para iniciar o Apache
 CMD ["apache2-foreground"]
