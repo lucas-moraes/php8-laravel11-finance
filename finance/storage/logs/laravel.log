@@ -1,0 +1,131 @@
+[2024-09-05 00:34:41] local.ERROR: Database file at path [/var/www/html/finance/database/banco_de_dados.db] does not exist. Ensure this is an absolute path to the database. (Connection: sqlite, SQL: delete from "cache") {"exception":"[object] (Illuminate\\Database\\QueryException(code: 0): Database file at path [/var/www/html/finance/database/banco_de_dados.db] does not exist. Ensure this is an absolute path to the database. (Connection: sqlite, SQL: delete from \"cache\") at /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php:813)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(767): Illuminate\\Database\\Connection->runQueryCallback('delete from \"ca...', Array, Object(Closure))
+#1 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(584): Illuminate\\Database\\Connection->run('delete from \"ca...', Array, Object(Closure))
+#2 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(548): Illuminate\\Database\\Connection->affectingStatement('delete from \"ca...', Array)
+#3 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3922): Illuminate\\Database\\Connection->delete('delete from \"ca...', Array)
+#4 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/DatabaseStore.php(340): Illuminate\\Database\\Query\\Builder->delete()
+#5 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Repository.php(713): Illuminate\\Cache\\DatabaseStore->flush()
+#6 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Console/ClearCommand.php(69): Illuminate\\Cache\\Repository->__call('flush', Array)
+#7 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Cache\\Console\\ClearCommand->handle()
+#8 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#9 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#10 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#11 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#12 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call(Array)
+#13 /var/www/html/vendor/symfony/console/Command/Command.php(279): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#14 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#15 /var/www/html/vendor/symfony/console/Application.php(1047): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#16 /var/www/html/vendor/symfony/console/Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Cache\\Console\\ClearCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#17 /var/www/html/vendor/symfony/console/Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#18 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#19 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1198): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#20 /var/www/html/artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#21 {main}
+
+[previous exception] [object] (Illuminate\\Database\\SQLiteDatabaseDoesNotExistException(code: 0): Database file at path [/var/www/html/finance/database/banco_de_dados.db] does not exist. Ensure this is an absolute path to the database. at /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/SQLiteConnector.php:34)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(222): Illuminate\\Database\\Connectors\\SQLiteConnector->connect(Array)
+#1 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#2 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1219): call_user_func(Object(Closure))
+#3 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(592): Illuminate\\Database\\Connection->getPdo()
+#4 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(800): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('delete from \"ca...', Array)
+#5 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(767): Illuminate\\Database\\Connection->runQueryCallback('delete from \"ca...', Array, Object(Closure))
+#6 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(584): Illuminate\\Database\\Connection->run('delete from \"ca...', Array, Object(Closure))
+#7 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(548): Illuminate\\Database\\Connection->affectingStatement('delete from \"ca...', Array)
+#8 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3922): Illuminate\\Database\\Connection->delete('delete from \"ca...', Array)
+#9 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/DatabaseStore.php(340): Illuminate\\Database\\Query\\Builder->delete()
+#10 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Repository.php(713): Illuminate\\Cache\\DatabaseStore->flush()
+#11 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Console/ClearCommand.php(69): Illuminate\\Cache\\Repository->__call('flush', Array)
+#12 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Cache\\Console\\ClearCommand->handle()
+#13 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#14 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#15 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#16 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#17 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call(Array)
+#18 /var/www/html/vendor/symfony/console/Command/Command.php(279): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#19 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#20 /var/www/html/vendor/symfony/console/Application.php(1047): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#21 /var/www/html/vendor/symfony/console/Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Cache\\Console\\ClearCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#22 /var/www/html/vendor/symfony/console/Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#23 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#24 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1198): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#25 /var/www/html/artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#26 {main}
+"} 
+[2024-09-05 00:48:22] local.ERROR: Database file at path [/var/www/html/finance/database/banco_de_dados.db] does not exist. Ensure this is an absolute path to the database. (Connection: sqlite, SQL: delete from "cache") {"exception":"[object] (Illuminate\\Database\\QueryException(code: 0): Database file at path [/var/www/html/finance/database/banco_de_dados.db] does not exist. Ensure this is an absolute path to the database. (Connection: sqlite, SQL: delete from \"cache\") at /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php:813)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(767): Illuminate\\Database\\Connection->runQueryCallback('delete from \"ca...', Array, Object(Closure))
+#1 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(584): Illuminate\\Database\\Connection->run('delete from \"ca...', Array, Object(Closure))
+#2 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(548): Illuminate\\Database\\Connection->affectingStatement('delete from \"ca...', Array)
+#3 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3922): Illuminate\\Database\\Connection->delete('delete from \"ca...', Array)
+#4 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/DatabaseStore.php(340): Illuminate\\Database\\Query\\Builder->delete()
+#5 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Repository.php(713): Illuminate\\Cache\\DatabaseStore->flush()
+#6 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Console/ClearCommand.php(69): Illuminate\\Cache\\Repository->__call('flush', Array)
+#7 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Cache\\Console\\ClearCommand->handle()
+#8 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#9 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#10 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#11 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#12 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call(Array)
+#13 /var/www/html/vendor/symfony/console/Command/Command.php(279): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#14 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#15 /var/www/html/vendor/symfony/console/Application.php(1047): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#16 /var/www/html/vendor/symfony/console/Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Cache\\Console\\ClearCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#17 /var/www/html/vendor/symfony/console/Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#18 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#19 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1198): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#20 /var/www/html/artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#21 {main}
+
+[previous exception] [object] (Illuminate\\Database\\SQLiteDatabaseDoesNotExistException(code: 0): Database file at path [/var/www/html/finance/database/banco_de_dados.db] does not exist. Ensure this is an absolute path to the database. at /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/SQLiteConnector.php:34)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(222): Illuminate\\Database\\Connectors\\SQLiteConnector->connect(Array)
+#1 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#2 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1219): call_user_func(Object(Closure))
+#3 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(592): Illuminate\\Database\\Connection->getPdo()
+#4 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(800): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('delete from \"ca...', Array)
+#5 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(767): Illuminate\\Database\\Connection->runQueryCallback('delete from \"ca...', Array, Object(Closure))
+#6 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(584): Illuminate\\Database\\Connection->run('delete from \"ca...', Array, Object(Closure))
+#7 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php(548): Illuminate\\Database\\Connection->affectingStatement('delete from \"ca...', Array)
+#8 /var/www/html/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3922): Illuminate\\Database\\Connection->delete('delete from \"ca...', Array)
+#9 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/DatabaseStore.php(340): Illuminate\\Database\\Query\\Builder->delete()
+#10 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Repository.php(713): Illuminate\\Cache\\DatabaseStore->flush()
+#11 /var/www/html/vendor/laravel/framework/src/Illuminate/Cache/Console/ClearCommand.php(69): Illuminate\\Cache\\Repository->__call('flush', Array)
+#12 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Cache\\Console\\ClearCommand->handle()
+#13 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#14 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#15 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#16 /var/www/html/vendor/laravel/framework/src/Illuminate/Container/Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#17 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call(Array)
+#18 /var/www/html/vendor/symfony/console/Command/Command.php(279): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#19 /var/www/html/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#20 /var/www/html/vendor/symfony/console/Application.php(1047): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#21 /var/www/html/vendor/symfony/console/Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Cache\\Console\\ClearCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#22 /var/www/html/vendor/symfony/console/Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#23 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#24 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1198): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#25 /var/www/html/artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#26 {main}
+"} 
+[2024-09-05 00:48:33] local.ERROR: Command "cache:config" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"cache:config\" is not defined.
+
+Did you mean one of these?
+    cache:clear
+    cache:forget
+    cache:prune-stale-tags
+    cache:table at /var/www/html/vendor/symfony/console/Application.php:702)
+[stacktrace]
+#0 /var/www/html/vendor/symfony/console/Application.php(258): Symfony\\Component\\Console\\Application->find('cache:config')
+#1 /var/www/html/vendor/symfony/console/Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(196): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 /var/www/html/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(1198): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 /var/www/html/artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#5 {main}
+"} 

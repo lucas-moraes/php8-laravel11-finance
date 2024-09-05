@@ -1,14 +1,14 @@
 <?php return array (
   0 => 'broadcasting',
-  4 => 'cors',
-  5 => 'hashing',
-  10 => 'view',
+  6 => 'view',
+  8 => 'cors',
+  9 => 'hashing',
   'app' => 
   array (
     'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
-    'url' => 'http://finance.local:8070',
+    'url' => '',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,
     'timezone' => 'UTC',
@@ -153,8 +153,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => '/var/www/html/finance/storage/framework/cache/data',
-        'lock_path' => '/var/www/html/finance/storage/framework/cache/data',
+        'path' => '/var/www/html/storage/framework/cache/data',
+        'lock_path' => '/var/www/html/storage/framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -209,7 +209,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => '/var/www/html/finance/database/banco_de_dados.db',
+        'database' => '/var/www/html/database/banco_de_dados.db',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -219,7 +219,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => '/var/www/html/finance/database/banco_de_dados.db',
+        'database' => '/var/www/html/database/banco_de_dados.db',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -239,7 +239,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => '/var/www/html/finance/database/banco_de_dados.db',
+        'database' => '/var/www/html/database/banco_de_dados.db',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -259,7 +259,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '5432',
-        'database' => '/var/www/html/finance/database/banco_de_dados.db',
+        'database' => '/var/www/html/database/banco_de_dados.db',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -274,7 +274,7 @@
         'url' => NULL,
         'host' => 'localhost',
         'port' => '1433',
-        'database' => '/var/www/html/finance/database/banco_de_dados.db',
+        'database' => '/var/www/html/database/banco_de_dados.db',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -323,14 +323,14 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => '/var/www/html/finance/storage/app',
+        'root' => '/var/www/html/storage/app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => '/var/www/html/finance/storage/app/public',
-        'url' => 'http://finance.local:8070/storage',
+        'root' => '/var/www/html/storage/app/public',
+        'url' => '/storage',
         'visibility' => 'public',
         'throw' => false,
       ),
@@ -349,7 +349,7 @@
     ),
     'links' => 
     array (
-      '/var/www/html/finance/public/storage' => '/var/www/html/finance/storage/app/public',
+      '/var/www/html/public/storage' => '/var/www/html/storage/app/public',
     ),
   ),
   'l5-swagger' => 
@@ -375,7 +375,7 @@
           'format_to_use_for_docs' => 'json',
           'annotations' => 
           array (
-            0 => '/var/www/html/finance/app/Http/Controllers',
+            0 => '/var/www/html/app/Http/Controllers',
           ),
         ),
       ),
@@ -407,8 +407,8 @@
       ),
       'paths' => 
       array (
-        'docs' => '/var/www/html/finance/storage/api-docs',
-        'views' => '/var/www/html/finance/resources/views/vendor/l5-swagger',
+        'docs' => '/var/www/html/storage/api-docs',
+        'views' => '/var/www/html/resources/views/vendor/l5-swagger',
         'base' => '/',
         'swagger_ui_assets_path' => 'vendor/swagger-api/swagger-ui/dist/',
         'excludes' => 
@@ -490,14 +490,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => '/var/www/html/finance/storage/logs/laravel.log',
+        'path' => '/var/www/html/storage/logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => '/var/www/html/finance/storage/logs/laravel.log',
+        'path' => '/var/www/html/storage/logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -562,7 +562,7 @@
       ),
       'emergency' => 
       array (
-        'path' => '/var/www/html/finance/storage/logs/laravel.log',
+        'path' => '/var/www/html/storage/logs/laravel.log',
       ),
     ),
   ),
@@ -581,7 +581,7 @@
         'username' => NULL,
         'password' => NULL,
         'timeout' => NULL,
-        'local_domain' => 'finance.local',
+        'local_domain' => NULL,
       ),
       'ses' => 
       array (
@@ -638,7 +638,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => '/var/www/html/finance/resources/views/vendor/mail',
+        0 => '/var/www/html/resources/views/vendor/mail',
       ),
     ),
   ),
@@ -733,7 +733,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => '/var/www/html/finance/storage/framework/sessions',
+    'files' => '/var/www/html/storage/framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -806,6 +806,14 @@
       ),
     ),
   ),
+  'view' => 
+  array (
+    'paths' => 
+    array (
+      0 => '/var/www/html/resources/views',
+    ),
+    'compiled' => '/var/www/html/storage/framework/views',
+  ),
   'cors' => 
   array (
     'paths' => 
@@ -850,14 +858,6 @@
       'verify' => true,
     ),
     'rehash_on_login' => true,
-  ),
-  'view' => 
-  array (
-    'paths' => 
-    array (
-      0 => '/var/www/html/finance/resources/views',
-    ),
-    'compiled' => '/var/www/html/finance/storage/framework/views',
   ),
   'flare' => 
   array (
@@ -943,7 +943,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => '/var/www/html/finance',
+    'remote_sites_path' => '/var/www/html',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',
