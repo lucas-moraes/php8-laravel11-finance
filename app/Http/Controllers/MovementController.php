@@ -142,7 +142,7 @@ class MovementController extends Controller
             $month = $request->input('month');
             $year = $request->input('year');
 
-            $query = MovementModel::select('lc_movimento.*', 'rowid')->where('ano',  $year);
+            $query = MovementModel::select('lc_movimento.*', DB::raw('rowid'))->where('ano',  $year);
 
             if ($month) {
                 $query = $query->where('mes', $month);
@@ -226,9 +226,13 @@ class MovementController extends Controller
                 'ano' => 'required|integer|min:2000',
                 'tipo' => 'required|string|max:255',
                 'categoria' => 'required|integer',
-                'descricao' => 'required|string|max:255',
+                'descricao' => 'nullable|string|max:255',
                 'valor' => 'required|numeric',
             ]);
+
+            if (!isset($validatedData['descricao'])) {
+                $validatedData['descricao'] = '';
+            }
 
             $movement = MovementModel::create($validatedData);
             return response()->json($movement, 201);
@@ -349,7 +353,7 @@ class MovementController extends Controller
             'ano' => 'required|integer|min:2000',
             'tipo' => 'required|string|max:255',
             'categoria' => 'required|integer',
-            'descricao' => 'required|string|max:255',
+            'descricao' => 'nullable|string|max:255',
             'valor' => 'required|numeric',
         ]);
 
@@ -452,14 +456,18 @@ class MovementController extends Controller
     public function updatePartialMovementById(Request $request, $rowid)
     {
         $validatedData = $request->validate([
-            'dia' => 'sometimes|integer|between:1,31',
-            'mes' => 'sometimes|integer|between:1,12',
-            'ano' => 'sometimes|integer|min:2000',
-            'tipo' => 'sometimes|string|max:255',
-            'categoria' => 'sometimes|integer',
-            'descricao' => 'sometimes|string|max:255',
-            'valor' => 'sometimes|numeric',
+                'dia' => 'required|integer|between:1,31',
+                'mes' => 'required|integer|between:1,12',
+                'ano' => 'required|integer|min:2000',
+                'tipo' => 'required|string|max:255',
+                'categoria' => 'required|integer',
+                'descricao' => 'nullable|string|max:255',
+                'valor' => 'required|numeric',
         ]);
+
+        if (!isset($validatedData['descricao'])) {
+            $validatedData['descricao'] = '';
+        }
 
         $fields = [];
         $values = [];
