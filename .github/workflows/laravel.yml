@@ -2,9 +2,9 @@ name: Laravel
 
 on:
   push:
-    branches: [ "raspiberrypi" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "raspiberrypi" ]
+    branches: [ "main" ]
 
 jobs:
   laravel-tests:
