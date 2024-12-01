@@ -25,7 +25,7 @@ window.ConsultMovement = async function (id) {
         currency: 'BRL',
       });
 
-      document.getElementById('modalMovementUpdateId').value = movement.rowid;
+      document.getElementById('modalMovementUpdateId').value = movement.id;
       document.getElementById('modalMovementUpdateDate').value =
         `${movement.ano}-${movement.mes.toString().padStart(2, '0')}-${movement.dia.toString().padStart(2, '0')}`;
       document.getElementById('modalMovementUpdateCategoria').value =

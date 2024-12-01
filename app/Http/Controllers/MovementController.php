@@ -27,7 +27,7 @@ class MovementController extends Controller
      *       @OA\JsonContent(
      *           type="array",
      *           @OA\Items(
-     *               @OA\Property(property="rowid", type="integer"),
+     *               @OA\Property(property="id", type="integer"),
      *               @OA\Property(property="dia", type="integer"),
      *               @OA\Property(property="mes", type="integer"),
      *               @OA\Property(property="ano", type="integer"),
@@ -52,6 +52,7 @@ class MovementController extends Controller
             if ($groupByCategory) {
                 $categories = MovementModel::select('categoria')
                     ->groupBy('categoria')
+                    ->OrderBy('categoria')
                     ->get();
                 $movement['categories'] = $categories;
             }
@@ -59,6 +60,7 @@ class MovementController extends Controller
             if ($groupByMonth) {
                 $months = MovementModel::select('mes')
                     ->groupBy('mes')
+                    ->OrderBy('mes')
                     ->get();
                 $movement['months'] = $months;
             }
@@ -66,6 +68,7 @@ class MovementController extends Controller
             if ($groupByYear) {
                 $years = MovementModel::select('ano')
                     ->groupBy('ano')
+                    ->OrderBy('ano')
                     ->get();
                 $movement['years'] = $years;
             }
@@ -120,7 +123,7 @@ class MovementController extends Controller
      *             type="array",
      *             @OA\Items(
      *                 type="object",
-     *                 @OA\Property(property="rowid", type="integer", example=1),
+     *                 @OA\Property(property="id", type="integer", example=1),
      *                 @OA\Property(property="lc_movimento", type="string", example="Movement details"),
      *                 @OA\Property(property="ano", type="integer", example=2024),
      *                 @OA\Property(property="mes", type="integer", example=1),
@@ -142,7 +145,7 @@ class MovementController extends Controller
             $month = $request->input('month');
             $year = $request->input('year');
 
-            $query = MovementModel::select('lc_movimento.*', DB::raw('rowid'))->where('ano',  $year);
+            $query = MovementModel::select('lc_movimento.*')->where('ano',  $year);
 
             if ($month) {
                 $query = $query->where('mes', $month);
@@ -244,11 +247,11 @@ class MovementController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/movement/{rowid}",
+     *     path="/movement/{id}",
      *     tags={"Movements"},
      *     summary="Delete a movement by ID",
      *     @OA\Parameter(
-     *         name="rowid",
+     *         name="id",
      *         in="path",
      *         required=true,
      *         @OA\Schema(
@@ -272,24 +275,24 @@ class MovementController extends Controller
      * )
      */
 
-    public function deleteById($rowid)
+    public function deleteById($id)
     {
         try {
-            $deleted = DB::delete('delete from lc_movimento where rowid = ?', [$rowid]);
+            $deleted = DB::delete('delete from lc_movimento where id = ?', [$id]);
             return response()->json($deleted, 204);
         } catch (\Exception $e) {
-            Log::error('Error deleting movement with rowid: ' . $rowid . ' - ' . $e->getMessage());
+            Log::error('Error deleting movement with id: ' . $id . ' - ' . $e->getMessage());
             return response()->json(['error' => 'Could not delete movement'], 500);
         }
     }
 
     /**
      * @OA\Put(
-     *     path="/movement/{rowid}",
+     *     path="/movement/{id}",
      *     tags={"Movements"},
      *     summary="Update a movement by ID",
      *     @OA\Parameter(
-     *         name="rowid",
+     *         name="id",
      *         in="path",
      *         required=true,
      *         @OA\Schema(
@@ -316,7 +319,7 @@ class MovementController extends Controller
      *         description="Movement updated successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="rowid", type="integer", example=1),
+     *             @OA\Property(property="id", type="integer", example=1),
      *             @OA\Property(property="dia", type="integer", example=15),
      *             @OA\Property(property="mes", type="integer", example=8),
      *             @OA\Property(property="ano", type="integer", example=2024),
@@ -345,7 +348,7 @@ class MovementController extends Controller
      * )
      */
 
-    public function updateFullMovementById(Request $request, $rowid)
+    public function updateFullMovementById(Request $request, $id)
     {
         $validatedData = $request->validate([
             'dia' => 'required|integer|between:1,31',
@@ -357,7 +360,11 @@ class MovementController extends Controller
             'valor' => 'required|numeric',
         ]);
 
-        $updateQuery = 'UPDATE lc_movimento SET dia = ?, mes = ?, ano = ?, tipo = ?, categoria = ?, descricao = ?, valor = ? WHERE rowid = ?';
+        if (!isset($validatedData['descricao'])) {
+            $validatedData['descricao'] = '';
+        }
+
+        $updateQuery = 'UPDATE lc_movimento SET dia = ?, mes = ?, ano = ?, tipo = ?, categoria = ?, descricao = ?, valor = ? WHERE id = ?';
 
         try {
             $updated = DB::update($updateQuery, [
@@ -368,28 +375,28 @@ class MovementController extends Controller
                 $validatedData['categoria'],
                 $validatedData['descricao'],
                 $validatedData['valor'],
-                $rowid
+                $id
             ]);
 
             if ($updated) {
-                $updatedMovement = DB::select('SELECT * FROM lc_movimento WHERE rowid = ?', [$rowid]);
+                $updatedMovement = DB::select('SELECT * FROM lc_movimento WHERE id = ?', [$id]);
                 return response()->json($updatedMovement[0], 200);
             } else {
                 return response()->json(['message' => 'Movement not found'], 404);
             }
         } catch (\Exception $e) {
-            \Log::error('Error updating movement with rowid: ' . $rowid . ' - ' . $e->getMessage());
+            Log::error('Error updating movement with id: ' . $id . ' - ' . $e->getMessage());
             return response()->json(['error' => 'Could not update movement'], 500);
         }
     }
 
     /**
      * @OA\Patch(
-     *     path="/movement/{rowid}",
+     *     path="/movement/{id}",
      *     summary="Partially update a movement by ID",
      *     tags={"Movements"},
      *     @OA\Parameter(
-     *         name="rowid",
+     *         name="id",
      *         in="path",
      *         required=true,
      *         @OA\Schema(
@@ -416,7 +423,7 @@ class MovementController extends Controller
      *         description="Movement updated successfully",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="rowid", type="integer", example=1),
+     *             @OA\Property(property="id", type="integer", example=1),
      *             @OA\Property(property="dia", type="integer", example=15),
      *             @OA\Property(property="mes", type="integer", example=8),
      *             @OA\Property(property="ano", type="integer", example=2024),
@@ -453,7 +460,7 @@ class MovementController extends Controller
      * )
      */
 
-    public function updatePartialMovementById(Request $request, $rowid)
+    public function updatePartialMovementById(Request $request, $id)
     {
         $validatedData = $request->validate([
                 'dia' => 'required|integer|between:1,31',
@@ -481,21 +488,21 @@ class MovementController extends Controller
             return response()->json(['message' => 'No fields to update'], 400);
         }
 
-        $values[] = $rowid;
+        $values[] = $id;
 
-        $updateQuery = 'UPDATE lc_movimento SET ' . implode(', ', $fields) . ' WHERE rowid = ?';
+        $updateQuery = 'UPDATE lc_movimento SET ' . implode(', ', $fields) . ' WHERE id = ?';
 
         try {
             $updated = DB::update($updateQuery, $values);
 
             if ($updated) {
-                $updatedMovement = DB::select('SELECT * FROM lc_movimento WHERE rowid = ?', [$rowid]);
+                $updatedMovement = DB::select('SELECT * FROM lc_movimento WHERE id = ?', [$id]);
                 return response()->json($updatedMovement[0], 200);
             } else {
                 return response()->json(['message' => 'Movement not found'], 404);
             }
         } catch (\Exception $e) {
-            Log::error('Error updating movement with rowid: ' . $rowid . ' - ' . $e->getMessage());
+            Log::error('Error updating movement with id: ' . $id . ' - ' . $e->getMessage());
             return response()->json(['error' => 'Could not update movement'], 500);
         }
     }
@@ -548,8 +555,10 @@ class MovementController extends Controller
     public function getMovementsByYearGroupByMonth($year)
     {
         try {
+
             $movements = MovementModel::select('mes', DB::raw('SUM(valor) as total'))
                 ->where('ano', $year)
+                ->OrderBy('mes')
                 ->groupBy('mes')
                 ->get();
             return response()->json($movements);
@@ -623,11 +632,11 @@ class MovementController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/movement/{rowid}",
+     *     path="/movement/{id}",
      *     summary="Obter um movimento pelo ID",
      *     tags={"Movements"},
      *     @OA\Parameter(
-     *         name="rowid",
+     *         name="id",
      *         in="path",
      *         description="ID do movimento",
      *         required=true,
@@ -640,7 +649,7 @@ class MovementController extends Controller
      *         description="Movimento encontrado",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="rowid", type="integer", example=1),
+     *             @OA\Property(property="id", type="integer", example=1),
      *             @OA\Property(property="dia", type="integer", example=15),
      *             @OA\Property(property="mes", type="integer", example=8),
      *             @OA\Property(property="ano", type="integer", example=2024),
@@ -657,10 +666,10 @@ class MovementController extends Controller
      * )
      */
 
-    public function getMovementById($rowid)
+    public function getMovementById($id)
     {
         try {
-            $movement = MovementModel::select('lc_movimento.*', 'rowid')->where('rowid', $rowid)->first();
+            $movement = MovementModel::select('lc_movimento.*')->where('id', $id)->first();
 
             if ($movement) {
                 return response()->json($movement);

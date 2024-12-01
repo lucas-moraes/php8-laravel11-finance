@@ -5,8 +5,8 @@
 
 import { FormatNumberToCurrency } from '../../js/tools.js';
 
-window.DeleteMovement = async function (rowid) {
-  await fetch(`/movement/${rowid}`, { method: 'DELETE' }).then((response) => {
+window.DeleteMovement = async function (id) {
+  await fetch(`/movement/${id}`, { method: 'DELETE' }).then((response) => {
     window.getMovementsFiltered();
   });
 };
@@ -38,10 +38,10 @@ window.getMovementsFiltered = async function () {
                 <td><span class="is-size-6">${movement.tipo}</span></td>
                 <td><span class="is-size-6">${movement.descricao}</span></td>
                 <td class="has-text-centered has-text-dark">
-                    <button class="icon ml-2 mr-2 button is-warning" onclick="ToggleModalMovementUpdate(); ConsultMovement(${movement.rowid}); ">
+                    <button class="icon ml-2 mr-2 button is-warning" onclick="ToggleModalMovementUpdate(); ConsultMovement(${movement.id}); ">
                               <i class="fas fa-cog"></i>
                     </button>
-                    <button class="icon ml-2 mr-2 button is-danger" onclick="DeleteMovement(${movement.rowid})">
+                    <button class="icon ml-2 mr-2 button is-danger" onclick="DeleteMovement(${movement.id})">
                         <i class="fas fa-times"></i>
                     </button>
                 </td>
